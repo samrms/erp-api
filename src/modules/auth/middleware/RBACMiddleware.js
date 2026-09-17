@@ -1,5 +1,5 @@
-import { BaseMiddleware } from '../../shared/middleware/BaseMiddleware.js'
-import { AuthorizationError } from '../../shared/errors/AuthorizationError.js'
+import { BaseMiddleware } from '../../../shared/middleware/BaseMiddleware.js'
+import { AuthorizationError } from '../../../shared/errors/AuthorizationError.js'
 export class RBACMiddleware extends BaseMiddleware {
   constructor() {
     super()

@@ -1,12 +1,14 @@
 export class BaseDatabase {
-  constructor() {}
-  async query() {
-    throw new Error('query must be implemented')
+  constructor(config) {
+    this.config = config || {};
+  }
+  async query(text, params) {
+    throw new Error("query must be implemented");
   }
   async getClient() {
-    throw new Error('getClient must be implemented')
+    throw new Error("getClient must be implemented");
   }
   async close() {
-    throw new Error('close must be implemented')
+    throw new Error("close must be implemented");
   }
 }

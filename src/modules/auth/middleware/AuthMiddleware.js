@@ -1,5 +1,5 @@
-import { BaseMiddleware } from '../../shared/middleware/BaseMiddleware.js'
-import { AuthenticationError } from '../../shared/errors/AuthenticationError.js'
+import { BaseMiddleware } from '../../../shared/middleware/BaseMiddleware.js'
+import { AuthenticationError } from '../../../shared/errors/AuthenticationError.js'
 export class AuthMiddleware extends BaseMiddleware {
   constructor(tokenProvider) {
     super()
