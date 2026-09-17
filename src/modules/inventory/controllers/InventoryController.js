@@ -39,20 +39,3 @@ export class InventoryController extends BaseController {
     }
   }
 }
-
-/**
- * @openapi
- * tags: [INVENTORY]
- */
-/**
- * @openapi
- * /inventory:
- *   get:
- *     tags: [Inventory]
- *     summary: Inventory status
- *     operationId: getInventory
- *     security: [{ bearerAuth: [] }]
- *     responses:
- *       200:
- *         description: Current inventory
- */

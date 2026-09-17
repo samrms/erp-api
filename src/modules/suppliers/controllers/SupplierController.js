@@ -50,20 +50,3 @@ export class SupplierController extends BaseController {
     }
   }
 }
-
-/**
- * @openapi
- * tags: [SUPPLIERS]
- */
-/**
- * @openapi
- * /suppliers:
- *   get:
- *     tags: [Suppliers]
- *     summary: List suppliers
- *     operationId: findAllSuppliers
- *     security: [{ bearerAuth: [] }]
- *     responses:
- *       200:
- *         description: Suppliers list
- */

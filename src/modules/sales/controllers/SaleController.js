@@ -32,34 +32,3 @@ export class SaleController extends BaseController {
     }
   }
 }
-
-/**
- * @openapi
- * tags: [SALES]
- */
-/**
- * @openapi
- * /sales:
- *   post:
- *     tags: [Sales]
- *     summary: Create a transactional sale
- *     operationId: createSale
- *     security: [{ bearerAuth: [] }]
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             $ref: '#/components/schemas/CreateSaleRequest'
- *     responses:
- *       201:
- *         description: Sale created atomically
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/Sale'
- *       409:
- *         description: Insufficient stock
- *       422:
- *         description: Validation error
- */

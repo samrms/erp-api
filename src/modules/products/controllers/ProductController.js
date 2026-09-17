@@ -49,35 +49,3 @@ export class ProductController extends BaseController {
     }
   }
 }
-
-/**
- * @openapi
- * tags: [PRODUCTS]
- */
-/**
- * @openapi
- * /products:
- *   get:
- *     tags: [Products]
- *     summary: List products
- *     operationId: findAllProducts
- *     security: [{ bearerAuth: [] }]
- *     parameters:
- *       - in: query
- *         name: page
- *         schema: { type: integer }
- *       - in: query
- *         name: limit
- *         schema: { type: integer, maximum: 100 }
- *     responses:
- *       200:
- *         description: List of products
- *         content:
- *           application/json:
- *             schema:
- *               type: array
- *               items:
- *                 $ref: '#/components/schemas/Product'
- *       401:
- *         description: Unauthorized
- */
