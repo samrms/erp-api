@@ -22,6 +22,10 @@ import { BullMQWorker } from '../infrastructure/queue/BullMQWorker.js'
 import { PostgresJobRepository } from '../modules/jobs/repositories/PostgresJobRepository.js'
 import { JobService } from '../modules/jobs/services/JobService.js'
 import { JobController } from '../modules/jobs/controllers/JobController.js'
+import { PostgresSupplierRepository } from '../modules/suppliers/repositories/PostgresSupplierRepository.js'
+import { SupplierService } from '../modules/suppliers/services/SupplierService.js'
+import { SupplierController } from '../modules/suppliers/controllers/SupplierController.js'
+import { InventoryController } from '../modules/inventory/controllers/InventoryController.js'
 
 export class ApplicationContainer {
   constructor() {
@@ -57,5 +61,9 @@ export class ApplicationContainer {
     this.jobRepo = new PostgresJobRepository(this.database)
     this.jobService = new JobService(this.jobRepo, this.queue)
     this.jobController = new JobController(this.jobService)
+    this.supplierRepo = new PostgresSupplierRepository(this.database)
+    this.supplierService = new SupplierService(this.supplierRepo)
+    this.supplierController = new SupplierController(this.supplierService)
+    this.inventoryController = new InventoryController(this.inventoryService)
   }
 }

@@ -7,6 +7,8 @@ import { productRoutes } from '../modules/products/routes/productRoutes.js'
 import { customerRoutes } from '../modules/customers/routes/customerRoutes.js'
 import { saleRoutes } from '../modules/sales/routes/saleRoutes.js'
 import { jobRoutes } from '../modules/jobs/routes/jobRoutes.js'
+import { supplierRoutes } from '../modules/suppliers/routes/supplierRoutes.js'
+import { inventoryRoutes } from '../modules/inventory/routes/inventoryRoutes.js'
 import { AuthMiddleware } from '../modules/auth/middleware/AuthMiddleware.js'
 import { RBACMiddleware } from '../modules/auth/middleware/RBACMiddleware.js'
 import { Swagger } from './Swagger.js'
@@ -69,6 +71,18 @@ export class App {
       this.auth.handle,
       this.authorize.handle('job:read'),
       jobRoutes(this.container.jobController),
+    )
+    this.app.use(
+      '/api/v1/inventory',
+      this.auth.handle,
+      this.authorize.handle('inventory:read'),
+      inventoryRoutes(this.container.inventoryController),
+    )
+    this.app.use(
+      '/api/v1/suppliers',
+      this.auth.handle,
+      this.authorize.handle('supplier:read'),
+      supplierRoutes(this.container.supplierController),
     )
     this.app.use('/docs', Swagger())
     this.app.use(new ErrorHandler().handle)
