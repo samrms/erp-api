@@ -1,10 +1,21 @@
-import express from "express";
-export const supplierRoutes = (controller) => {
-  const router = express.Router();
-  router.get("/", controller.findAll);
-  router.get("/:id", controller.findById);
-  router.post("/", controller.create);
-  router.patch("/:id", controller.update);
-  router.delete("/:id", controller.delete);
-  return router;
-};
+import { Router } from 'express';
+
+export default class SupplierRoutes {
+  constructor(supplierController) {
+    this.supplierController = supplierController;
+    this.router = Router();
+    this.register();
+  }
+
+  register() {
+    this.router.get('/', this.supplierController.findAll);
+    this.router.get('/:id', this.supplierController.findById);
+    this.router.post('/', this.supplierController.create);
+    this.router.patch('/:id', this.supplierController.update);
+    this.router.delete('/:id', this.supplierController.delete);
+  }
+
+  getRouter() {
+    return this.router;
+  }
+}
