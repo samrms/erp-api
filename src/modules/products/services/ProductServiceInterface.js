@@ -1,1 +1,0 @@
-export class ProductServiceInterface { async create(d){throw new Error('NI')} async findById(i){throw new Error('NI')} async findMany(q){throw new Error('NI')} async update(i,d){throw new Error('NI')} async deactivate(i){throw new Error('NI')} }
