@@ -17,15 +17,78 @@ Node.js 20+, Express, PostgreSQL (raw SQL), BullMQ, Redis, Docker
 
 ## Architecture
 
-See `docs/architecture/` and ADRs.
+Modular monolith with constructor DI. Routes use class-based `Router()` (see `docs/adr/003-constructor-di.md`, `docs/adr/004-inheritance-strategy.md`).
+
+Structure:
+
+```
+Client -> HTTP (Express) -> Routes (class) -> Middleware (Auth, RBAC) -> Controllers -> Services -> Domain Models -> Repositories (PostgreSQL) / Queue (BullMQ/Redis)
+```
+
+See `docs/architecture/` and ADRs. Migrations: `migrations/`. Tests: `tests/` (unit, integration, e2e, security, concurrency, architecture, contracts, performance, helpers, data).
+Modular monolith with constructor DI. Routes use class-based `Router()` (see `docs/adr/003-constructor-di.md`, `docs/adr/004-inheritance-strategy.md`).
+
+Structure:
+
+```
+Client -> HTTP (Express) -> Routes (class) -> Middleware (Auth, RBAC) -> Controllers -> Services -> Domain Models -> Repositories (PostgreSQL) / Queue (BullMQ/Redis)
+```
+
+See `docs/architecture/` and ADRs. Migrations: `migrations/`. Tests: `tests/` (unit, integration, e2e, security, concurrency, architecture, contracts, performance, helpers, data).
+Modular monolith with constructor DI. Routes use class-based `Router()` (see `docs/adr/003-constructor-di.md`, `docs/adr/004-inheritance-strategy.md`).
+
+Structure:
+
+```
+Client -> HTTP (Express) -> Routes (class) -> Middleware (Auth, RBAC) -> Controllers -> Services -> Domain Models -> Repositories (PostgreSQL) / Queue (BullMQ/Redis)
+```
+
+See `docs/architecture/` and ADRs. Migrations: `migrations/`. Tests: `tests/` (unit, integration, e2e, security, concurrency, architecture, contracts, performance, helpers, data).
+Modular monolith with constructor DI. Routes use class-based `Router()` (see `docs/adr/003-constructor-di.md`, `docs/adr/004-inheritance-strategy.md`).
+
+Structure:
+
+```
+Client -> HTTP (Express) -> Routes (class) -> Middleware (Auth, RBAC) -> Controllers -> Services -> Domain Models -> Repositories (PostgreSQL) / Queue (BullMQ/Redis)
+```
+
+See `docs/architecture/` and ADRs. Migrations: `migrations/`. Tests: `tests/` (unit, integration, e2e, security, concurrency, architecture, contracts, performance, helpers, data).
+Modular monolith with constructor DI. Routes use class-based `Router()` (see `docs/adr/003-constructor-di.md`, `docs/adr/004-inheritance-strategy.md`).
+
+Structure:
+
+```
+Client -> HTTP (Express) -> Routes (class) -> Middleware (Auth, RBAC) -> Controllers -> Services -> Domain Models -> Repositories (PostgreSQL) / Queue (BullMQ/Redis)
+```
+
+See `docs/architecture/` and ADRs. Migrations: `migrations/`. Tests: `tests/` (unit, integration, e2e, security, concurrency, architecture, contracts, performance, helpers, data).
+Modular monolith with constructor DI. Routes use class-based `Router()` (see `docs/adr/003-constructor-di.md`, `docs/adr/004-inheritance-strategy.md`).
+
+Structure:
+
+```
+Client -> HTTP (Express) -> Routes (class) -> Middleware (Auth, RBAC) -> Controllers -> Services -> Domain Models -> Repositories (PostgreSQL) / Queue (BullMQ/Redis)
+```
+
+See `docs/architecture/` and ADRs. Migrations: `migrations/`. Tests: `tests/` (unit, integration, e2e, security, concurrency, architecture, contracts, performance, helpers, data).
 
 ## Commands
 
 - `pnpm install`
-- `pnpm migrate`
+- `pnpm migrate:up` / `pnpm migrate:down`
 - `pnpm start`
 - `pnpm worker`
 - `pnpm test`
+- `pnpm test:unit`
+- `pnpm test:integration`
+- `pnpm test:e2e`
+- `pnpm test:security`
+- `pnpm test:concurrency`
+- `pnpm test:architecture`
+- `pnpm test:queue`
+- `pnpm test:full`
+- `pnpm format`
+- `pnpm lint`
 
 ## Security
 
