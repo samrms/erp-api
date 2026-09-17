@@ -21,4 +21,11 @@ export class PostgresCustomerRepository {
     )
     return r.rows
   }
+  async update(id, { name, email, phone, active }) {
+    const r = await this.db.query(
+      'UPDATE customers SET name=$1, email=$2, phone=$3, active=$4, updated_at=now() WHERE id=$5 RETURNING *',
+      [name, email, phone, active, id],
+    )
+    return r.rows[0]
+  }
 }
