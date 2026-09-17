@@ -12,6 +12,8 @@
     "migrate:test": "NODE_ENV=test node-pg-migrate up",
     "lint": "eslint src/ tests/",
     "lint:format": "eslint --fix src/ tests/",
+    "lint:prettier": "prettier --check .",
+    "format": "prettier . --write",
     "format": "prettier . --write",
     "format:check": "prettier . --check",
     "test": "vitest run",
@@ -46,6 +48,8 @@
   "devDependencies": {
     "@eslint/js": "^10.0.1",
     "eslint": "^8.57.0",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-prettier": "^5.5.6",
     "globals": "^17.12.0",
     "node-pg-migrate": "^7.2.0",
     "prettier": "3.9.7",
