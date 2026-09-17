@@ -55,3 +55,15 @@ export class CustomerController extends BaseController {
  * @openapi
  * tags: [CUSTOMERS]
  */
+/**
+ * @openapi
+ * /customers:
+ *   get:
+ *     tags: [Customers]
+ *     summary: List customers
+ *     operationId: findAllCustomers
+ *     security: [{ bearerAuth: [] }]
+ *     responses:
+ *       200:
+ *         description: Customers list
+ */

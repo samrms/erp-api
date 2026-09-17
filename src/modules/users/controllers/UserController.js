@@ -28,3 +28,26 @@ export class UserController extends BaseController {
  * @openapi
  * tags: [USERS]
  */
+/**
+ * @openapi
+ * /users:
+ *   get:
+ *     tags: [Users]
+ *     summary: Get user by ID
+ *     operationId: getUser
+ *     security: [{ bearerAuth: [] }]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema: { type: integer }
+ *     responses:
+ *       200:
+ *         description: User details
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/User'
+ *       404:
+ *         description: Not found
+ */
