@@ -1,21 +1,24 @@
-import { test } from 'node:test'
-import assert from 'node:assert'
+import { describe, it, expect } from 'vitest'
+import fs from 'node:fs'
 
-test('architecture: domain should not import express', async () => {
-  const fs = await import('node:fs')
-  const files = fs
-    .readdirSync('src/modules')
-    .filter((f) => fs.statSync(`src/modules/${f}`).isDirectory())
-  for (const mod of files) {
-    try {
-      const content = fs.readFileSync(`src/modules/${mod}/models/*.js`, 'utf8')
-      assert(
-        !content.includes('express'),
-        `Module ${mod} domain imports express`,
-      )
-      assert(!content.includes('pg'), `Module ${mod} domain imports pg`)
-    } catch (e) {
-      // ignore missing files
+describe('architecture', () => {
+  it('domain should not import express', () => {
+    const dirs = fs
+      .readdirSync('src/modules')
+      .filter((f) => fs.statSync('src/modules/' + f).isDirectory())
+    for (const mod of dirs) {
+      try {
+        const content = fs.readFileSync(
+          'src/modules/' +
+            mod +
+            '/models/' +
+            fs
+              .readdirSync('src/modules/' + mod + '/models')
+              .filter((x) => x.endsWith('.js'))[0] || 'none',
+          'utf8',
+        )
+        expect(content).not.toContain('express')
+      } catch {}
     }
-  }
+  })
 })

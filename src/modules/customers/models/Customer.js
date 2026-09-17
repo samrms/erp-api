@@ -1,4 +1,4 @@
-import { BaseDomainModel } from '../../../shared/domain/BaseDomainModel.js'
+import { BaseDomainModel } from '../../../../shared/domain/BaseDomainModel.js'
 export class Customer extends BaseDomainModel {
   constructor({ id, name, email, phone, address }) {
     super()

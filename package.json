@@ -11,33 +11,39 @@
     "migrate": "node-pg-migrate up",
     "migrate:test": "NODE_ENV=test node-pg-migrate up",
     "lint": "eslint src/ tests/",
-    "test": "node --test tests/**/*.test.js",
-    "test:unit": "node --test 'tests/unit/**/*.test.js'",
-    "test:integration": "node --test 'tests/integration/**/*.test.js'",
-    "test:e2e": "node --test 'tests/e2e/**/*.test.js'",
-    "test:security": "node --test 'tests/security/**/*.test.js'",
-    "test:concurrency": "node --test 'tests/concurrency/**/*.test.js'",
-    "test:architecture": "node --test 'tests/architecture/**/*.test.js'",
-    "test:queue": "node --test 'tests/queue/**/*.test.js'"
+    "test": "vitest run",
+    "test:unit": "vitest run tests/unit",
+    "test:integration": "vitest run tests/integration",
+    "test:e2e": "vitest run tests/e2e",
+    "test:security": "vitest run tests/security",
+    "test:concurrency": "vitest run tests/concurrency",
+    "test:architecture": "vitest run tests/architecture",
+    "test:queue": "vitest run tests/queue",
+    "migrate:down": "node-pg-migrate down",
+    "docker:up": "docker compose up -d",
+    "docker:down": "docker compose down",
+    "docker:build": "docker compose build"
   },
   "dependencies": {
     "argon2": "^0.40.2",
     "bullmq": "^5.12.0",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
     "express": "^4.21.2",
+    "express-rate-limit": "^7.5.0",
+    "express-validator": "^7.2.0",
     "helmet": "^7.2.0",
     "jsonwebtoken": "^9.0.2",
+    "license": "^1.0.3",
     "pg": "^8.13.0",
     "redis": "^4.7.0",
     "swagger-jsdoc": "^6.2.8",
-    "swagger-ui-express": "^5.0.1",
-    "express-rate-limit": "^7.5.0",
-    "dotenv": "^16.4.7",
-    "cors": "^2.8.5",
-    "express-validator": "^7.2.0"
+    "swagger-ui-express": "^5.0.1"
   },
   "devDependencies": {
     "eslint": "^8.57.0",
-    "node-pg-migrate": "^7.2.0"
+    "node-pg-migrate": "^7.2.0",
+    "vitest": "^5.0.1"
   },
   "engines": {
     "node": ">=20.0.0"

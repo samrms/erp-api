@@ -1,4 +1,4 @@
-import { BaseDomainModel } from '../../../shared/domain/BaseDomainModel.js'
+import { BaseDomainModel } from '../../../../shared/domain/BaseDomainModel.js'
 export class Job extends BaseDomainModel {
   constructor({ id, jobType, payload, status }) {
     super()
