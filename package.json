@@ -11,6 +11,9 @@
     "migrate": "node-pg-migrate up",
     "migrate:test": "NODE_ENV=test node-pg-migrate up",
     "lint": "eslint src/ tests/",
+    "lint:format": "eslint --fix src/ tests/",
+    "format": "",
+    "format:check": "",
     "test": "vitest run",
     "test:unit": "vitest run tests/unit",
     "test:integration": "vitest run tests/integration",
@@ -41,8 +44,11 @@
     "swagger-ui-express": "^5.0.1"
   },
   "devDependencies": {
+    "@eslint/js": "^10.0.1",
     "eslint": "^8.57.0",
+    "globals": "^17.12.0",
     "node-pg-migrate": "^7.2.0",
+    "prettier": "3.9.7",
     "vitest": "^5.0.1"
   },
   "engines": {
