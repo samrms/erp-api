@@ -23,8 +23,8 @@
     "test:security": "vitest run tests/security",
     "test:concurrency": "vitest run tests/concurrency",
     "test:architecture": "vitest run tests/architecture",
-    "test:queue": "vitest run tests/queue",
-    "migrate:down": "node-pg-migrate down",
+    "test:queue": "vitest run tests/unit/queue",
+    "test:full": "vitest run",
     "docker:up": "docker compose up -d",
     "docker:down": "docker compose down",
     "docker:build": "docker compose build"
@@ -39,7 +39,6 @@
     "express-validator": "^7.2.0",
     "helmet": "^7.2.0",
     "jsonwebtoken": "^9.0.2",
-    "license": "^1.0.3",
     "pg": "^8.13.0",
     "redis": "^4.7.0",
     "swagger-jsdoc": "^6.2.8",
@@ -63,7 +62,7 @@
     "rest-api",
     "portfolio",
     "oop",
-    "postgis"
+    "modular-monolith"
   ],
   "license": "MIT"
 }
