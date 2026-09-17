@@ -1,18 +1,21 @@
 # ERP API
 
-Minimal ERP REST API portfolio project.
+Modular monolith / JS / Express / PostgreSQL / raw SQL / pnpm
 
-- JavaScript / Node.js / pnpm
-- Express / PostgreSQL / raw SQL
-- Modular monolith with full OOP, DI, SOLID
-- JWT + Argon2 + RBAC
-- Transactions, inventory, sales
+## Architecture
 
-## Quick start
+- Dependency Inversion: services depend on repository abstractions
+- DI via ApplicationContainer (no factories)
+- Encapsulation: private fields in domain objects
+- Transactions: InventoryService, SaleService use TransactionManager
+- Security: Argon2 + JWT + RBAC + parameterized SQL + rate limit
 
-```bash
-cp .env.example .env
+## Commands
+
 pnpm install
 pnpm db:migrate
 pnpm dev
-```
+
+## Docker
+
+docker-compose up

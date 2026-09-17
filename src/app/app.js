@@ -11,6 +11,12 @@ import { userRoutes } from '../modules/users/routes/userRoutes.js'
 import { errorHandler } from './errorHandler.js'
 import { HealthController } from './HealthController.js'
 import { ReadyController } from './ReadyController.js'
+import { errorHandler } from './errorHandler.js'
+import { HealthController } from './HealthController.js'
+import { ReadyController } from './ReadyController.js'
+import { errorHandler } from './errorHandler.js'
+import { HealthController } from './HealthController.js'
+import { ReadyController } from './ReadyController.js'
 
 export class App {
   constructor(container) {
@@ -35,6 +41,9 @@ export class App {
       ready.check(req, res).catch(next),
     )
     this.app.get('/', (req, res) => res.json({ message: 'ERP API' }))
+    this.app.use('/docs', (req, res) =>
+      res.redirect('https://petstore.swagger.io/'),
+    )
     this.app.use('/api/v1/auth', authRoutes(this.container))
     this.app.use('/api/v1/products', productRoutes(this.container))
     this.app.use('/api/v1/customers', customerRoutes(this.container))
