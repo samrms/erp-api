@@ -1,5 +1,7 @@
 export class ErrorHandler {
-  constructor() {}
+  constructor() {
+    this.handle = this.handle.bind(this)
+  }
   handle(err, req, res, next) {
     const status = err.statusCode || 500
     const response = {

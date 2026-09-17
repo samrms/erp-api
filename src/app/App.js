@@ -32,6 +32,7 @@ export class App {
     const authMw = new AuthMiddleware(this.container.tokenProvider)
     this.auth = authMw
     this.authorize = new RBACMiddleware()
+    this.errorHandler = new ErrorHandler()
   }
 
   setupRoutes() {
@@ -85,7 +86,7 @@ export class App {
       supplierRoutes(this.container.supplierController),
     )
     this.app.use('/docs', Swagger())
-    this.app.use(new ErrorHandler().handle)
+    this.app.use(this.errorHandlerthis.errorHandler.handle)
   }
 
   listen(port) {
