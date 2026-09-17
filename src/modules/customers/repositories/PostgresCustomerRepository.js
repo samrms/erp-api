@@ -1,31 +1,48 @@
-export class PostgresCustomerRepository {
-  constructor(db) {
-    this.db = db
+import { BaseRepository } from '../../../shared/repositories/BaseRepository.js'
+export class PostgresCustomerRepository extends BaseRepository {
+  constructor(database) {
+    super()
+    this.database = database
   }
-  async findById(id) {
-    const r = await this.db.query('SELECT * FROM customers WHERE id = $1', [id])
-    return r.rows[0] || null
-  }
-  async create({ name, email, phone }) {
-    const r = await this.db.query(
-      'INSERT INTO customers (name, email, phone) VALUES ($1,$2,$3) RETURNING *',
-      [name, email, phone],
-    )
-    return r.rows[0]
-  }
-  async findMany({ page = 1, limit = 20 } = {}) {
-    const offset = (page - 1) * limit
-    const r = await this.db.query(
-      'SELECT * FROM customers ORDER BY created_at DESC LIMIT $1 OFFSET $2',
+  async findAll(query) {
+    const { limit = 20, offset = 0, search = '' } = query || {}
+    if (search) {
+      const res = await this.database.query(
+        'SELECT * FROM customers WHERE name ILIKE $1 LIMIT $2 OFFSET $3',
+        [`%${search}%`, limit, offset],
+      )
+      return res.rows
+    }
+    const res = await this.database.query(
+      'SELECT * FROM customers LIMIT $1 OFFSET $2',
       [limit, offset],
     )
-    return r.rows
+    return res.rows
   }
-  async update(id, { name, email, phone, active }) {
-    const r = await this.db.query(
-      'UPDATE customers SET name=$1, email=$2, phone=$3, active=$4, updated_at=now() WHERE id=$5 RETURNING *',
-      [name, email, phone, active, id],
+  async findById(id) {
+    const res = await this.database.query(
+      'SELECT * FROM customers WHERE id = $1',
+      [id],
     )
-    return r.rows[0]
+    return res.rows[0] || null
+  }
+  async create({ name, email, phone, address }) {
+    const res = await this.database.query(
+      'INSERT INTO customers (name, email, phone, address) VALUES ($1, $2, $3, $4) RETURNING *',
+      [name, email, phone, address],
+    )
+    return res.rows[0]
+  }
+  async update(id, fields) {
+    const keys = Object.keys(fields)
+    const set = keys.map((k, i) => `${k} = $${i + 2}`).join(', ')
+    const res = await this.database.query(
+      `UPDATE customers SET ${set} WHERE id = $1 RETURNING *`,
+      [id, ...Object.values(fields)],
+    )
+    return res.rows[0]
+  }
+  async delete(id) {
+    await this.database.query('DELETE FROM customers WHERE id = $1', [id])
   }
 }

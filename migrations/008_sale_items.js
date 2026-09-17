@@ -1,29 +1,23 @@
-export const up = (pgm) => {
+exports.up = async (pgm) => {
   pgm.createTable('sale_items', {
-    id: {
-      type: 'uuid',
-      primaryKey: true,
-      default: pgm.func('gen_random_uuid()'),
-    },
+    id: { type: 'serial', primaryKey: true },
     sale_id: {
-      type: 'uuid',
+      type: 'integer',
+      references: 'sales(id)',
+      onDelete: 'cascade',
       notNull: true,
-      references: 'sales',
-      onDelete: 'CASCADE',
     },
     product_id: {
-      type: 'uuid',
+      type: 'integer',
+      references: 'products(id)',
+      onDelete: 'restrict',
       notNull: true,
-      references: 'products',
-      onDelete: 'RESTRICT',
     },
-    quantity: { type: 'integer', notNull: true, check: 'quantity > 0' },
+    quantity: { type: 'integer', notNull: true },
     unit_price: { type: 'numeric(12,2)', notNull: true },
     subtotal: { type: 'numeric(12,2)', notNull: true },
   })
-  pgm.createIndex('sale_items', ['sale_id'])
 }
-
-export const down = (pgm) => {
+exports.down = async (pgm) => {
   pgm.dropTable('sale_items')
 }

@@ -1,52 +1,34 @@
-import { User } from '../../users/models/User.js'
+import { BaseService } from '../../../shared/http/BaseService.js'
 import { AuthenticationError } from '../../../shared/errors/AuthenticationError.js'
-import { ConflictError } from '../../../shared/errors/ConflictError.js'
-
-export class AuthService {
-  constructor(userRepository, passwordHasher, tokenProvider) {
-    this.userRepository = userRepository
+export class AuthService extends BaseService {
+  constructor(authRepository, passwordHasher, tokenProvider) {
+    super()
+    this.authRepository = authRepository
     this.passwordHasher = passwordHasher
     this.tokenProvider = tokenProvider
   }
 
-  async register(dto) {
-    const existing = await this.userRepository.findByEmail(dto.email)
-    if (existing) {
-      throw new ConflictError('Email already registered')
-    }
-    const hash = await this.passwordHasher.hash(dto.password)
-    const userRow = await this.userRepository.create({
-      email: dto.email,
-      passwordHash: hash,
-      role: dto.role,
-    })
-    const user = new User(userRow)
-    return {
-      user,
-      token: this.tokenProvider.sign({ sub: user.id, role: user.role }),
-    }
+  async register({ email, password }) {
+    const existing = await this.authRepository.findByEmail(email)
+    if (existing) throw new AuthenticationError('Email already exists')
+    const hash = await this.passwordHasher.hash(password)
+    return this.authRepository.create(email, hash)
   }
 
-  async login(dto) {
-    const userRow = await this.userRepository.findByEmail(dto.email)
+  async login({ email, password }) {
+    const userRow = await this.authRepository.findByEmail(email)
     if (!userRow) throw new AuthenticationError('Invalid credentials')
-    const user = new User(userRow)
     const valid = await this.passwordHasher.verify(
-      dto.password,
-      user.getPasswordHash(),
+      userRow.password_hash,
+      password,
     )
     if (!valid) throw new AuthenticationError('Invalid credentials')
-    if (!user.isActive()) throw new AuthenticationError('Account inactive')
-    return {
-      user,
-      token: this.tokenProvider.sign({ sub: user.id, role: user.role }),
-    }
-  }
-
-  async me(token) {
-    const payload = this.tokenProvider.verify(token)
-    const userRow = await this.userRepository.findByIdfindById(payload.sub)
-    if (!userRow) throwthrow newnew AuthenticationError('UserUser notnot found')
-    return new User(userRow)
+    const token = this.tokenProvider.sign({
+      userId: userRow.id,
+      email,
+      roles: userRow.roles || [],
+      permissions: userRow.permissions || [],
+    })
+    return { token, user: { id: userRow.id, email: userRow.email } }
   }
 }

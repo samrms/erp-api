@@ -1,21 +1,25 @@
 import pg from 'pg'
-
-export class PostgresDatabase {
+import { BaseDatabase } from './BaseDatabase.js'
+export class PostgresDatabase extends BaseDatabase {
   constructor(config) {
-    this.config = config
-    this.pool = new pg.Pool({ connectionString: config.databaseUrl })
+    super()
+    this.pool = new pg.Pool({
+      connectionString: config.databaseUrl,
+      max: 20,
+      idleTimeoutMillis: 30000,
+      connectionTimeoutMillis: 5000,
+    })
   }
 
-  async query(sql, params = []) {
-    const result = await this.pool.query(sql, params)
-    return result
+  async query(text, params) {
+    return this.pool.query(text, params)
+  }
+
+  async getClient() {
+    return this.pool.connect()
   }
 
   async close() {
     await this.pool.end()
-  }
-
-  getPool() {
-    return this.pool
   }
 }

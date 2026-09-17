@@ -1,22 +1,22 @@
+import { BaseMiddleware } from '../../shared/middleware/BaseMiddleware.js'
 import { AuthenticationError } from '../../shared/errors/AuthenticationError.js'
-
-export class AuthMiddleware {
+export class AuthMiddleware extends BaseMiddleware {
   constructor(tokenProvider) {
+    super()
     this.tokenProvider = tokenProvider
+    this.handle = this.handle.bind(this)
   }
 
-  requireAuth(req, res, next) {
-    const header = req.headers.authorization || ''
-    const parts = header.split(' ')
-    if (parts.length !== 2 || parts[0] !== 'Bearer') {
-      return next(new AuthenticationError('Missing or invalid token'))
-    }
+  async handle(req, res, next) {
     try {
-      const payload = this.tokenProvider.verify(parts[1])
+      const authHeader = req.headers.authorization || ''
+      const token = authHeader.replace('Bearer ', '').trim()
+      if (!token) throw new AuthenticationError('Missing token')
+      const payload = this.tokenProvider.verify(token)
       req.user = payload
       next()
-    } catch (e) {
-      next(new AuthenticationError('Invalid token'))
+    } catch (error) {
+      next(error)
     }
   }
 }

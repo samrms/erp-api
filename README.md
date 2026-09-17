@@ -1,21 +1,32 @@
-# ERP API
+# ERP REST API
 
-Modular monolith / JS / Express / PostgreSQL / raw SQL / pnpm
+Portfolio-grade modular monolith ERP REST API built with Node.js, Express, PostgreSQL, BullMQ, and Redis.
+
+## Features
+
+- Authentication (Argon2 + JWT)
+- RBAC authorization
+- Products, Customers, Suppliers, Inventory, Sales
+- Transactional sale creation with concurrency control
+- Asynchronous job queue with retries and idempotency
+- Health, readiness, Swagger docs
+
+## Stack
+
+Node.js 20+, Express, PostgreSQL (raw SQL), BullMQ, Redis, Docker
 
 ## Architecture
 
-- Dependency Inversion: services depend on repository abstractions
-- DI via ApplicationContainer (no factories)
-- Encapsulation: private fields in domain objects
-- Transactions: InventoryService, SaleService use TransactionManager
-- Security: Argon2 + JWT + RBAC + parameterized SQL + rate limit
+See `docs/architecture/` and ADRs.
 
 ## Commands
 
-pnpm install
-pnpm db:migrate
-pnpm dev
+- `pnpm install`
+- `pnpm migrate`
+- `pnpm start`
+- `pnpm worker`
+- `pnpm test`
 
-## Docker
+## Security
 
-docker-compose up
+Parameterized SQL only. Rate limiting. Helmet. Secure JWT (HS256 only).

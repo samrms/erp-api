@@ -1,7 +1,6 @@
 import { AppError } from './AppError.js'
-
 export class AuthenticationError extends AppError {
-  constructor(message = 'Authentication failed') {
-    super(message, 'AUTHENTICATION_ERROR', 401)
+  constructor(message, code = 'AUTHENTICATION_ERROR') {
+    super(message, 401, code)
   }
 }

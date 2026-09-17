@@ -1,27 +1,21 @@
-export const up = (pgm) => {
+exports.up = async (pgm) => {
   pgm.createTable('suppliers', {
-    id: {
-      type: 'uuid',
-      primaryKey: true,
-      default: pgm.func('gen_random_uuid()'),
-    },
-    name: { type: 'varchar(150)', notNull: true },
-    email: { type: 'varchar(255)', unique: true },
+    id: { type: 'serial', primaryKey: true },
+    name: { type: 'varchar(255)', notNull: true },
+    email: { type: 'varchar(255)' },
     phone: { type: 'varchar(50)' },
-    active: { type: 'boolean', notNull: true, default: true },
     created_at: {
       type: 'timestamp',
-      notNull: true,
       default: pgm.func('now()'),
+      notNull: true,
     },
     updated_at: {
       type: 'timestamp',
-      notNull: true,
       default: pgm.func('now()'),
+      notNull: true,
     },
   })
 }
-
-export const down = (pgm) => {
+exports.down = async (pgm) => {
   pgm.dropTable('suppliers')
 }

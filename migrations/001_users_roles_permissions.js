@@ -1,69 +1,76 @@
-export const up = (pgm) => {
+exports.up = async (pgm) => {
   pgm.createTable('users', {
-    id: {
-      type: 'uuid',
-      primaryKey: true,
-      default: pgm.func('gen_random_uuid()'),
-    },
+    id: { type: 'serial', primaryKey: true },
     email: { type: 'varchar(255)', notNull: true, unique: true },
     password_hash: { type: 'varchar(255)', notNull: true },
-    role: { type: 'varchar(50)', notNull: true, default: 'employee' },
-    active: { type: 'boolean', notNull: true, default: true },
     created_at: {
       type: 'timestamp',
-      notNull: true,
       default: pgm.func('now()'),
+      notNull: true,
     },
     updated_at: {
       type: 'timestamp',
-      notNull: true,
       default: pgm.func('now()'),
+      notNull: true,
     },
   })
 
   pgm.createTable('roles', {
-    id: {
-      type: 'uuid',
-      primaryKey: true,
-      default: pgm.func('gen_random_uuid()'),
-    },
-    name: { type: 'varchar(50)', notNull: true, unique: true },
+    id: { type: 'serial', primaryKey: true },
+    name: { type: 'varchar(100)', notNull: true, unique: true },
     created_at: {
       type: 'timestamp',
-      notNull: true,
       default: pgm.func('now()'),
+      notNull: true,
     },
   })
 
   pgm.createTable('permissions', {
-    id: {
-      type: 'uuid',
-      primaryKey: true,
-      default: pgm.func('gen_random_uuid()'),
-    },
-    role_id: {
-      type: 'uuid',
-      notNull: true,
-      references: 'roles',
-      onDelete: 'CASCADE',
-    },
-    resource: { type: 'varchar(50)', notNull: true },
-    action: { type: 'varchar(20)', notNull: true },
+    id: { type: 'serial', primaryKey: true },
+    code: { type: 'varchar(100)', notNull: true, unique: true },
+    name: { type: 'varchar(255)', notNull: true },
     created_at: {
       type: 'timestamp',
-      notNull: true,
       default: pgm.func('now()'),
+      notNull: true,
     },
   })
 
-  pgm.addConstraint(
-    'permissions',
-    'permissions_unique',
-    'UNIQUE(role_id, resource, action)',
-  )
-}
+  pgm.createTable('user_roles', {
+    user_id: {
+      type: 'integer',
+      references: 'users(id)',
+      onDelete: 'CASCADE',
+      notNull: true,
+    },
+    role_id: {
+      type: 'integer',
+      references: 'roles(id)',
+      onDelete: 'CASCADE',
+      notNull: true,
+    },
+    primaryKey: ['user_id', 'role_id'],
+  })
 
-export const down = (pgm) => {
+  pgm.createTable('role_permissions', {
+    role_id: {
+      type: 'integer',
+      references: 'roles(id)',
+      onDelete: 'CASCADE',
+      notNull: true,
+    },
+    permission_id: {
+      type: 'integer',
+      references: 'permissions(id)',
+      onDelete: 'CASCADE',
+      notNull: true,
+    },
+    primaryKey: ['role_id', 'permission_id'],
+  })
+}
+exports.down = async (pgm) => {
+  pgm.dropTable('role_permissions')
+  pgm.dropTable('user_roles')
   pgm.dropTable('permissions')
   pgm.dropTable('roles')
   pgm.dropTable('users')

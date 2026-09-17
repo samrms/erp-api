@@ -1,20 +1,20 @@
-export class TransactionManager {
+import { BaseService } from '../../shared/http/BaseService.js'
+export class TransactionManager extends BaseService {
   constructor(database) {
+    super()
     this.database = database
   }
 
   async run(callback) {
-    const client = await this.database.getPool().connect()
+    const client = await this.database.getClient()
     try {
       await client.query('BEGIN')
-      const result = await callback({
-        query: (sql, params) => client.query(sql, params),
-      })
+      const result = await callback(client)
       await client.query('COMMIT')
       return result
-    } catch (e) {
+    } catch (error) {
       await client.query('ROLLBACK')
-      throw e
+      throw error
     } finally {
       client.release()
     }

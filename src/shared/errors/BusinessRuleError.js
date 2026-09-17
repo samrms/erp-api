@@ -1,7 +1,6 @@
 import { AppError } from './AppError.js'
-
 export class BusinessRuleError extends AppError {
-  constructor(message = 'Business rule violated') {
-    super(message, 'BUSINESS_RULE_ERROR', 422)
+  constructor(message, code = 'BUSINESS_RULE_VIOLATION') {
+    super(message, 422, code)
   }
 }

@@ -1,16 +1,22 @@
+import { BaseMiddleware } from '../../shared/middleware/BaseMiddleware.js'
 import { AuthorizationError } from '../../shared/errors/AuthorizationError.js'
-
-export class RBACMiddleware {
+export class RBACMiddleware extends BaseMiddleware {
   constructor() {
-    this.requirePermission = (resource, action) => {
-      return (req, res, next) => {
-        // Minimal RBAC: check role for demonstration; real permissions from DB
-        const role = req.user?.role
-        if (role === 'admin') return next()
-        if (role === 'manager' && action === 'read') return next()
-        if (role === 'employee' && action === 'read' && resource !== 'users')
-          return next()
-        return next(new AuthorizationError('Insufficient permissions'))
+    super()
+    this.handle = this.handle.bind(this)
+  }
+
+  handle(permission) {
+    return (req, res, next) => {
+      try {
+        const user = req.user || {}
+        const userPermissions = user.permissions || []
+        if (!userPermissions.includes(permission)) {
+          throw new AuthorizationError(`Requires ${permission}`)
+        }
+        next()
+      } catch (error) {
+        next(error)
       }
     }
   }

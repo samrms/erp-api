@@ -1,25 +1,22 @@
-import { Customer } from '../models/Customer.js'
-import { NotFoundError } from '../../../shared/errors/NotFoundError.js'
-export class CustomerService {
+import { BaseService } from '../../../shared/http/BaseService.js'
+export class CustomerService extends BaseService {
   constructor(repo) {
+    super()
     this.repo = repo
   }
-  async create(data) {
-    const row = await this.repo.create(data)
-    return new Customer(row)
+  async findAll(q) {
+    return this.repo.findAll(q)
   }
   async findById(id) {
-    const row = await this.repo.findById(id)
-    if (!row) throw new NotFoundError()
-    return new Customer(row)
+    return this.repo.findById(id)
   }
-  async findMany(query) {
-    return await this.repo.findMany(query)
+  async create(d) {
+    return this.repo.create(d)
   }
-  async update(id, data) {
-    const row = (await this.repo.update)
-      ? await this.repo.update(id, data)
-      : await this.repo.findById(id)
-    return new Customer(row)
+  async update(id, d) {
+    return this.repo.update(id, d)
+  }
+  async delete(id) {
+    return this.repo.delete(id)
   }
 }
