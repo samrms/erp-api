@@ -13,7 +13,7 @@ export class PostgresUserRepository extends BaseRepository {
   }
   async create(data, client) {
     const db = client || this.database;
-    const result = await dbdb.query(
+    const result = await db.query(
       "INSERT INTO users (email, password_hash, roles, permissions) VALUES ($1, $2, $3, $4) RETURNING *",
       [data.email, data.passwordHash, data.roles || [], data.permissions || []],
     );
