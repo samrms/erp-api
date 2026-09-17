@@ -1,9 +1,9 @@
-import jwt from 'jsonwebtoken'
-import { BaseTokenProvider } from './BaseTokenProvider.js'
+import jwt from "jsonwebtoken";
+import { BaseTokenProvider } from "./BaseTokenProvider.js";
 export class JwtTokenProvider extends BaseTokenProvider {
   constructor(config) {
-    super()
-    this.config = config
+    super();
+    this.config = config;
   }
 
   sign(payload) {
@@ -11,15 +11,15 @@ export class JwtTokenProvider extends BaseTokenProvider {
       issuer: this.config.jwtIssuer,
       audience: this.config.jwtAudience,
       expiresIn: this.config.jwtExpiresIn,
-      algorithm: 'HS256',
-    })
+      algorithm: "HS256",
+    });
   }
 
   verify(token) {
     return jwt.verify(token, this.config.jwtSecret, {
       issuer: this.config.jwtIssuer,
       audience: this.config.jwtAudience,
-      algorithms: ['HS256'],
-    })
+      algorithms: ["HS256"],
+    });
   }
 }

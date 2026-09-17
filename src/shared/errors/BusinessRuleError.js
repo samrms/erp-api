@@ -1,6 +1,6 @@
-import { AppError } from './AppError.js'
+import { AppError } from "./AppError.js";
 export class BusinessRuleError extends AppError {
-  constructor(message, code = 'BUSINESS_RULE_VIOLATION') {
-    super(message, 422, code)
+  constructor(message, code = "BUSINESS_RULE_VIOLATION") {
+    super(message, 422, code);
   }
 }

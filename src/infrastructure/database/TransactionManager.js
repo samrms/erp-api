@@ -1,22 +1,22 @@
-import { BaseService } from '../../shared/http/BaseService.js'
+import { BaseService } from "../../shared/http/BaseService.js";
 export class TransactionManager extends BaseService {
   constructor(database) {
-    super()
-    this.database = database
+    super();
+    this.database = database;
   }
 
   async run(callback) {
-    const client = await this.database.getClient()
+    const client = await this.database.getClient();
     try {
-      await client.query('BEGIN')
-      const result = await callback(client)
-      await client.query('COMMIT')
-      return result
+      await client.query("BEGIN");
+      const result = await callback(client);
+      await client.query("COMMIT");
+      return result;
     } catch (error) {
-      await client.query('ROLLBACK')
-      throw error
+      await client.query("ROLLBACK");
+      throw error;
     } finally {
-      client.release()
+      client.release();
     }
   }
 }

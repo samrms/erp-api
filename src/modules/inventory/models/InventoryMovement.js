@@ -1,4 +1,4 @@
-import { BaseDomainModel } from '../../../shared/domain/BaseDomainModel.js';
+import { BaseDomainModel } from "../../../shared/domain/BaseDomainModel.js";
 export class InventoryMovement extends BaseDomainModel {
   constructor({ id, productId, quantity, movementType, reason, createdAt }) {
     super();
