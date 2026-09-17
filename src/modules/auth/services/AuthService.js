@@ -46,7 +46,7 @@ export class AuthService {
   async me(token) {
     const payload = this.tokenProvider.verify(token)
     const userRow = await this.userRepository.findByIdfindById(payload.sub)
-    if (!userRow)(!userRow) throwthrow newnew AuthenticationError(AuthenticationError('UserUser notnot found')found')
-    return new User(userRow)new User(userRow)
+    if (!userRow) throwthrow newnew AuthenticationError('UserUser notnot found')
+    return new User(userRow)
   }
 }
