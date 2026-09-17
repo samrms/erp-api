@@ -1,17 +1,17 @@
 export class InventoryController {
-  constructor(service) {
-    this.service = service
+  constructor(s) {
+    this.service = s
     this.adjust = this.adjust.bind(this)
   }
   async adjust(req, res, next) {
     try {
-      const result = await this.service.adjust(
+      const r = await this.service.adjust(
         req.body.productId || req.params.productId,
         req.body.quantity || 0,
         req.body.reason,
         req.body.referenceId,
       )
-      res.json({ data: result })
+      res.json({ data: r })
     } catch (e) {
       next(e)
     }
