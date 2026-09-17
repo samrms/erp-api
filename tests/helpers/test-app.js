@@ -1,1 +1,3 @@
-export function createTestApp() { return { app: { listen: () => {} } }; }
+export function createTestApp() {
+  return { app: { listen: () => {} } };
+}

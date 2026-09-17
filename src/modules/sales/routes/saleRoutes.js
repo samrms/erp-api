@@ -10,5 +10,7 @@ export default class SaleRoutes {
     this.router.get("/:id", this.saleController.findById);
     this.router.post("/", this.saleController.create);
   }
-  getRouter() { return this.router; }
+  getRouter() {
+    return this.router;
+  }
 }

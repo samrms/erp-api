@@ -11,5 +11,7 @@ export default class InventoryRoutes {
     this.router.post("/", this.inventoryController.create);
     this.router.patch("/:id", this.inventoryController.update);
   }
-  getRouter() { return this.router; }
+  getRouter() {
+    return this.router;
+  }
 }

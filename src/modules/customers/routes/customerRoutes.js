@@ -12,5 +12,7 @@ export default class CustomerRoutes {
     this.router.patch("/:id", this.customerController.update);
     this.router.delete("/:id", this.customerController.delete);
   }
-  getRouter() { return this.router; }
+  getRouter() {
+    return this.router;
+  }
 }

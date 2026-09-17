@@ -1,1 +1,3 @@
-export function createAuthToken() { return 'test-token'; }
+export function createAuthToken() {
+  return "test-token";
+}

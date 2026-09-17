@@ -12,5 +12,7 @@ export default class UserRoutes {
     this.router.patch("/:id", this.userController.update);
     this.router.delete("/:id", this.userController.delete);
   }
-  getRouter() { return this.router; }
+  getRouter() {
+    return this.router;
+  }
 }

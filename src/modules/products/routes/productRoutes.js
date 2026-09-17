@@ -12,5 +12,7 @@ export default class ProductRoutes {
     this.router.patch("/:id", this.productController.update);
     this.router.delete("/:id", this.productController.delete);
   }
-  getRouter() { return this.router; }
+  getRouter() {
+    return this.router;
+  }
 }

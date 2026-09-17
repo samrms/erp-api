@@ -10,5 +10,7 @@ export default class JobRoutes {
     this.router.get("/:id", this.jobController.findById);
     this.router.post("/", this.jobController.create);
   }
-  getRouter() { return this.router; }
+  getRouter() {
+    return this.router;
+  }
 }
