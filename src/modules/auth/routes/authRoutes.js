@@ -15,7 +15,7 @@ export function authRoutes(container) {
   router.get(
     '/me',
     authMiddleware.requireAuth.bind(authMiddleware),
-    (req, res, next) => controller.me(req, res, next),
+    controller.me,
   )
   return router
 }
