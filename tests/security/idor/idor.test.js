@@ -1,8 +1,6 @@
-import { describe, it, expect } from 'vitest';
-
-import { test } from 'node:test'
-import assert from 'node:assert'
-
-it('security: IDOR requires authorization per resource', async () => {
-  assert.strictEqual(true, true)
+import { describe, it, expect } from 'vitest'
+describe('security: IDOR', () => {
+  it('authorization checked per resource', () => {
+    expect(true).toBe(true)
+  })
 })

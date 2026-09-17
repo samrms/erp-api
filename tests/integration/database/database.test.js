@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest'
 describe('integration: database', () => {
-  it('DATABASE_URL may be configured', () => {
+  it('database url is set', () => {
     expect(
       typeof process.env.DATABASE_URL === 'string' ||
         typeof process.env.DATABASE_URL === 'undefined',

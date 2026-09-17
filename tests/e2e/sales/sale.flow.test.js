@@ -1,8 +1,6 @@
-import { describe, it, expect } from 'vitest';
-
-import { test } from 'node:test'
-import assert from 'node:assert'
-
-it('e2e: sale creates sale items and deducts inventory', async () => {
-  assert.strictEqual(1, 1)
+import { describe, it, expect } from 'vitest'
+describe('e2e: sales', () => {
+  it('sale creates items and deducts inventory', async () => {
+    expect(true).toBe(true)
+  })
 })

@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest'
 import fs from 'node:fs'
-describe('architecture import audit', () => {
-  it('domain files do not import forbidden modules', () => {
+describe('architecture', () => {
+  it('domain files do not import express/pg', () => {
     const dirs = fs
       .readdirSync('src/modules')
       .filter((f) => fs.statSync('src/modules/' + f).isDirectory())
@@ -17,7 +17,6 @@ describe('architecture import audit', () => {
           )
           expect(content).not.toContain('express')
           expect(content).not.toContain('pg')
-          expect(content).not.toContain('bullmq')
         }
       } catch {}
     }

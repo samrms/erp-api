@@ -1,8 +1,6 @@
-import { describe, it, expect } from 'vitest';
-
-import { test } from 'node:test'
-import assert from 'node:assert'
-
-it('e2e: product CRUD workflow', async () => {
-  assert.strictEqual(1, 1)
+import { describe, it, expect } from 'vitest'
+describe('e2e: products', () => {
+  it('CRUD workflow', async () => {
+    expect(true).toBe(true)
+  })
 })
