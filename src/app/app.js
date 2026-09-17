@@ -2,6 +2,7 @@ import express from 'express'
 import helmet from 'helmet'
 import cors from 'cors'
 import { authRoutes } from '../modules/auth/routes/authRoutes.js'
+import { productRoutes } from '../modules/products/routes/productRoutes.js'
 import { errorHandler } from './errorHandler.js'
 import { HealthController } from './HealthController.js'
 import { ReadyController } from './ReadyController.js'
@@ -30,6 +31,7 @@ export class App {
     )
     this.app.get('/', (req, res) => res.json({ message: 'ERP API' }))
     this.app.use('/api/v1/auth', authRoutes(this.container))
+    this.app.use('/api/v1/products', productRoutes(this.container))
   }
 
   setupErrorHandling() {
