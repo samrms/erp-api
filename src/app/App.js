@@ -13,6 +13,7 @@ import { AuthMiddleware } from "../modules/auth/middleware/AuthMiddleware.js";
 import { RBACMiddleware } from "../modules/auth/middleware/RBACMiddleware.js";
 import { Swagger } from "./Swagger.js";
 import { ErrorHandler } from "./ErrorHandler.js";
+import { Logger } from "../infrastructure/logger/Logger.js";
 
 export class App {
   constructor(container) {
@@ -33,6 +34,7 @@ export class App {
     this.auth = authMw;
     this.authorize = new RBACMiddleware();
     this.errorHandler = new ErrorHandler();
+    this.logger = new Logger();
   }
 
   setupRoutes() {
@@ -86,10 +88,12 @@ export class App {
       supplierRoutes(this.container.supplierController),
     );
     this.app.use("/docs", Swagger());
-    this.app.use(this.errorHandlerthis.errorHandler.handle);
+    this.app.use(this.errorHandler.handle);
   }
 
   listen(port) {
-    return this.app.listen(port, () => console.log(`Server on ${port}`));
+    return this.app.listen(port, () =>
+      this.logger.info({ server: "server running on http://localhost:3000/" }),
+    );
   }
 }
