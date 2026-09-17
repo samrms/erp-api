@@ -1,7 +1,13 @@
-import express from "express";
-export const authRoutes = (controller, _authMiddleware_authMiddleware) => {
-  const router = express.Router();
-  router.post("/register", controller.register);
-  router.post("/login", controller.login);
-  return router;
-};
+import { Router } from "express";
+export default class AuthRoutes {
+  constructor(authController) {
+    this.authController = authController;
+    this.router = Router();
+    this.register();
+  }
+  register() {
+    this.router.post("/register", this.authController.register);
+    this.router.post("/login", this.authController.login);
+  }
+  getRouter() { return this.router; }
+}

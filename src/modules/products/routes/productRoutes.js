@@ -1,10 +1,16 @@
-import express from "express";
-export const productRoutes = (controller) => {
-  const router = express.Router();
-  router.post("/", controller.create);
-  router.get("/", controller.findAll);
-  router.get("/:id", controller.findById);
-  router.patch("/:id", controller.update);
-  router.delete("/:id", controller.delete);
-  return router;
-};
+import { Router } from "express";
+export default class ProductRoutes {
+  constructor(productController) {
+    this.productController = productController;
+    this.router = Router();
+    this.register();
+  }
+  register() {
+    this.router.get("/", this.productController.findAll);
+    this.router.get("/:id", this.productController.findById);
+    this.router.post("/", this.productController.create);
+    this.router.patch("/:id", this.productController.update);
+    this.router.delete("/:id", this.productController.delete);
+  }
+  getRouter() { return this.router; }
+}

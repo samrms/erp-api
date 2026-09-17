@@ -1,8 +1,15 @@
-import express from "express";
-export const inventoryRoutes = (controller) => {
-  const router = express.Router();
-  router.get("/:productId", controller.getStock);
-  router.post("/:productId/adjust", controller.adjustStock);
-  router.post("/movements", controller.createMovement);
-  return router;
-};
+import { Router } from "express";
+export default class InventoryRoutes {
+  constructor(inventoryController) {
+    this.inventoryController = inventoryController;
+    this.router = Router();
+    this.register();
+  }
+  register() {
+    this.router.get("/", this.inventoryController.findAll);
+    this.router.get("/:id", this.inventoryController.findById);
+    this.router.post("/", this.inventoryController.create);
+    this.router.patch("/:id", this.inventoryController.update);
+  }
+  getRouter() { return this.router; }
+}

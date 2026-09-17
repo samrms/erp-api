@@ -1,7 +1,14 @@
-import express from "express";
-export const jobRoutes = (controller) => {
-  const router = express.Router();
-  router.post("/", controller.create);
-  router.get("/:id", controller.findById);
-  return router;
-};
+import { Router } from "express";
+export default class JobRoutes {
+  constructor(jobController) {
+    this.jobController = jobController;
+    this.router = Router();
+    this.register();
+  }
+  register() {
+    this.router.get("/", this.jobController.findAll);
+    this.router.get("/:id", this.jobController.findById);
+    this.router.post("/", this.jobController.create);
+  }
+  getRouter() { return this.router; }
+}
