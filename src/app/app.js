@@ -3,9 +3,31 @@ import helmet from 'helmet'
 import cors from 'cors'
 import { authRoutes } from '../modules/auth/routes/authRoutes.js'
 import { productRoutes } from '../modules/products/routes/productRoutes.js'
-import { errorHandler } from './errorHandler.js'
-import { HealthController } from './HealthController.js'
-import { ReadyController } from './ReadyController.js'
+import { customerRoutes } from '../modules/customers/routes/customerRoutes.js'
+import { supplierRoutes } from '../modules/suppliers/routes/supplierRoutes.js'
+import { inventoryRoutes } from '../modules/inventory/routes/inventoryRoutes.js'
+import { salesRoutes } from '../modules/sales/routes/salesRoutes.js'
+import { userRoutes } from '../modules/users/routes/userRoutes.js'
+import { authRoutes } from '../modules/auth/routes/authRoutes.js'
+import { productRoutes } from '../modules/products/routes/productRoutes.js'
+import { customerRoutes } from '../modules/customers/routes/customerRoutes.js'
+import { supplierRoutes } from '../modules/suppliers/routes/supplierRoutes.js'
+import { inventoryRoutes } from '../modules/inventory/routes/inventoryRoutes.js'
+import { salesRoutes } from '../modules/sales/routes/salesRoutes.js'
+import { userRoutes } from '../modules/users/routes/userRoutes.js'
+import { errorHandler } from '../shared/errors/errorHandler.js'
+import { HealthController } from '../modules/health/HealthController.js'
+import { ReadyController } from '../modules/health/ReadyController.js'
+import { authRoutes } from '../modules/auth/routes/authRoutes.js'
+import { productRoutes } from '../modules/products/routes/productRoutes.js'
+import { customerRoutes } from '../modules/customers/routes/customerRoutes.js'
+import { supplierRoutes } from '../modules/suppliers/routes/supplierRoutes.js'
+import { inventoryRoutes } from '../modules/inventory/routes/inventoryRoutes.js'
+import { salesRoutes } from '../modules/sales/routes/salesRoutes.js'
+import { userRoutes } from '../modules/users/routes/userRoutes.js'
+import { errorHandler } from '../shared/errors/errorHandler.js'
+import { HealthController } from '../modules/health/HealthController.js'
+import { ReadyController } from '../modules/health/ReadyController.js'
 
 export class App {
   constructor(container) {
@@ -32,6 +54,11 @@ export class App {
     this.app.get('/', (req, res) => res.json({ message: 'ERP API' }))
     this.app.use('/api/v1/auth', authRoutes(this.container))
     this.app.use('/api/v1/products', productRoutes(this.container))
+    this.app.use('/api/v1/customers', customerRoutes(this.container))
+    this.app.use('/api/v1/suppliers', supplierRoutes(this.container))
+    this.app.use('/api/v1/inventory', inventoryRoutes(this.container))
+    this.app.use('/api/v1/sales', salesRoutes(this.container))
+    this.app.use('/api/v1/users', userRoutes(this.container))
   }
 
   setupErrorHandling() {
