@@ -93,7 +93,10 @@ export class App {
 
   listen(port) {
     return this.app.listen(port, () =>
-      this.logger.info({ server: "server running on http://localhost:3000/" }),
+      this.logger.info({
+        server: "http://localhost:3000/",
+        docs: "http://localhost:3000/docs",
+      }),
     );
   }
 }
