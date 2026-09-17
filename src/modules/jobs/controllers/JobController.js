@@ -24,3 +24,8 @@ export class JobController extends BaseController {
     }
   }
 }
+
+/**
+ * @openapi
+ * tags: [JOBS]
+ */

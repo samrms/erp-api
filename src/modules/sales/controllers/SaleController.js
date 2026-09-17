@@ -32,3 +32,8 @@ export class SaleController extends BaseController {
     }
   }
 }
+
+/**
+ * @openapi
+ * tags: [SALES]
+ */

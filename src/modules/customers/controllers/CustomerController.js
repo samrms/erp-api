@@ -50,3 +50,8 @@ export class CustomerController extends BaseController {
     }
   }
 }
+
+/**
+ * @openapi
+ * tags: [CUSTOMERS]
+ */

@@ -23,3 +23,8 @@ export class UserController extends BaseController {
     }
   }
 }
+
+/**
+ * @openapi
+ * tags: [USERS]
+ */

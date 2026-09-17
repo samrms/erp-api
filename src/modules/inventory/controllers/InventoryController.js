@@ -39,3 +39,8 @@ export class InventoryController extends BaseController {
     }
   }
 }
+
+/**
+ * @openapi
+ * tags: [INVENTORY]
+ */

@@ -50,3 +50,8 @@ export class SupplierController extends BaseController {
     }
   }
 }
+
+/**
+ * @openapi
+ * tags: [SUPPLIERS]
+ */

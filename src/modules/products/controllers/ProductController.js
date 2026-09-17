@@ -49,3 +49,8 @@ export class ProductController extends BaseController {
     }
   }
 }
+
+/**
+ * @openapi
+ * tags: [PRODUCTS]
+ */

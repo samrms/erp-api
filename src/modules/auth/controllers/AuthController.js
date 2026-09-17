@@ -25,3 +25,19 @@ export class AuthController extends BaseController {
     }
   }
 }
+/**
+ * @openapi
+ * /auth/register:
+ *   post:
+ *     tags: [Auth]
+ *     summary: Register a new user
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/RegisterUser'
+ *     responses:
+ *       201:
+ *         description: User created
+ */
