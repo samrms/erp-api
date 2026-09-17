@@ -1,12 +1,11 @@
 import express from 'express'
 import { UserController } from '../controllers/UserController.js'
 import { UserService } from '../services/UserService.js'
-import { PostgresUserRepositoryPostgresUserRepositoryPostgresUserRepositoryPostgresUserRepositoryPostgresUserRepositoryPostgresUserRepository } from '../repositories/PostgresUserRepositoryPostgresUserRepositoryPostgresUserRepositoryPostgresUserRepositoryPostgresUserRepositoryPostgresUserRepository.js'
+import { PostgresUserRepository } from '../repositories/PostgresUserRepository.js'
+
 export function userRoutes(container) {
   const router = express.Router()
-  const repo = new PostgresUserRepositoryPostgresUserRepository(
-    container.database,
-  )
+  const repo = new PostgresUserRepository(container.database)
   const s = new UserService(repo)
   const c = new UserController(s)
   router.get('/', c.findMany)
