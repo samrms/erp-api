@@ -1,2 +1,12 @@
-import pg from 'pg'
-export class BaseDatabase {}
+export class BaseDatabase {
+  constructor() {}
+  async query() {
+    throw new Error('query must be implemented')
+  }
+  async getClient() {
+    throw new Error('getClient must be implemented')
+  }
+  async close() {
+    throw new Error('close must be implemented')
+  }
+}

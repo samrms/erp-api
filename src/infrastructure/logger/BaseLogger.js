@@ -1,1 +1,5 @@
-export class BaseLogger {}
+export class BaseLogger {
+  info() {}
+  warn() {}
+  error() {}
+}
