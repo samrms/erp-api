@@ -1,6 +1,8 @@
 import { AppError } from "./AppError.js";
+
 export class NotFoundError extends AppError {
-  constructor(message, code = "NOT_FOUND") {
-    super(message, 404, code);
+  constructor(resource = "Resource", id) {
+    const msg = id ? `${resource} ${id} not found` : `${resource} not found`;
+    super(msg, 404, "NOT_FOUND");
   }
 }

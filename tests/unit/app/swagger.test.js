@@ -195,12 +195,22 @@ describe("Swagger/OpenAPI documentation", () => {
     });
 
     it("documents inventory endpoints", () => {
-      expect(spec.paths["/inventory"]).toBeDefined();
-      expect(spec.paths["/inventory"].get).toBeDefined();
-      expect(spec.paths["/inventory"].post).toBeDefined();
-      expect(spec.paths["/inventory/{id}"]).toBeDefined();
-      expect(spec.paths["/inventory/{id}"].get).toBeDefined();
-      expect(spec.paths["/inventory/{id}"].patch).toBeDefined();
+      expect(spec.paths["/inventory/movements"]).toBeDefined();
+      expect(spec.paths["/inventory/movements"].post).toBeDefined();
+      expect(spec.paths["/inventory/{productId}"]).toBeDefined();
+      expect(spec.paths["/inventory/{productId}"].get).toBeDefined();
+      expect(spec.paths["/inventory/{productId}/adjust"]).toBeDefined();
+      expect(spec.paths["/inventory/{productId}/adjust"].patch).toBeDefined();
+    });
+
+    it("documents users endpoints", () => {
+      expect(spec.paths["/users"]).toBeDefined();
+      expect(spec.paths["/users"].get).toBeDefined();
+      expect(spec.paths["/users/{id}"]).toBeDefined();
+      expect(spec.paths["/users/{id}"].get).toBeDefined();
+      expect(spec.paths["/users/{id}/promote"]).toBeDefined();
+      expect(spec.paths["/users/{id}/promote"].post).toBeDefined();
+      expect(spec.schemas.PromoteRequest).toBeDefined();
     });
 
     it("documents jobs endpoints", () => {
@@ -236,8 +246,12 @@ describe("Swagger/OpenAPI documentation", () => {
         "/suppliers/{id}",
         "/sales",
         "/sales/{id}",
-        "/inventory",
-        "/inventory/{id}",
+        "/inventory/movements",
+        "/inventory/{productId}",
+        "/inventory/{productId}/adjust",
+        "/users",
+        "/users/{id}",
+        "/users/{id}/promote",
         "/jobs",
         "/jobs/{id}",
       ];

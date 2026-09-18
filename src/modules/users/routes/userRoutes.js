@@ -1,17 +1,43 @@
 import { Router } from "express";
+import { validate } from "../../../shared/validation/validate.js";
+import {
+  listUsersValidators,
+  userIdValidator,
+  promoteValidators,
+} from "../schemas/userSchemas.js";
+
 export default class UserRoutes {
-  constructor(userController) {
+  constructor(userController, writeGuard) {
     this.userController = userController;
+    this.writeGuard = writeGuard;
     this.router = Router();
     this.register();
   }
+
   register() {
-    this.router.get("/", this.userController.findAll);
-    this.router.get("/:id", this.userController.findById);
-    this.router.post("/", this.userController.create);
-    this.router.patch("/:id", this.userController.update);
-    this.router.delete("/:id", this.userController.delete);
+    this.router.get(
+      "/",
+      listUsersValidators,
+      validate,
+      this.userController.findAll,
+    );
+
+    this.router.get(
+      "/:id",
+      userIdValidator,
+      validate,
+      this.userController.findById,
+    );
+
+    this.router.post(
+      "/:id/promote",
+      this.writeGuard,
+      promoteValidators,
+      validate,
+      this.userController.promote,
+    );
   }
+
   getRouter() {
     return this.router;
   }

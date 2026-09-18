@@ -1,4 +1,5 @@
 import { BaseLogger } from "./BaseLogger.js";
+
 export class Logger extends BaseLogger {
   info(obj) {
     console.log(

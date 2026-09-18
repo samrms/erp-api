@@ -38,6 +38,10 @@ const definition = {
       name: "Jobs",
       description: "Asynchronous background job submission (BullMQ)",
     },
+    {
+      name: "Users",
+      description: "User listing and role promotion (admin only)",
+    },
   ],
   paths,
   components: {
@@ -56,7 +60,7 @@ const definition = {
 
 const options = {
   definition,
-  apis: [], // Paths are fully centralized; no JSDoc scanning needed
+  apis: [],
 };
 
 const spec = swaggerJsdoc(options);
@@ -64,7 +68,6 @@ const spec = swaggerJsdoc(options);
 export const Swagger = () => {
   const router = express.Router();
 
-  // Swagger UI
   router.use(
     "/",
     swaggerUi.serve,
@@ -79,7 +82,6 @@ export const Swagger = () => {
     }),
   );
 
-  // Raw OpenAPI JSON
   router.get("/openapi.json", (_req, res) => {
     res.setHeader("Content-Type", "application/json");
     res.setHeader("Cache-Control", "public, max-age=300");

@@ -1,22 +1,8 @@
-/**
- * Centralized OpenAPI schema definitions.
- *
- * These schemas reflect the ACTUAL database schema, DTOs, and validation
- * rules as implemented in migrations, DTOs, and schemas directories.
- *
- * To document a new endpoint: add path definition to swagger.paths.js.
- * To add a new schema: add it here and reference it in paths.
- */
-
-// ─── Reusable Fragments ───────────────────────────────────────────────
-
 const Timestamp = {
   type: "string",
   format: "date-time",
   description: "ISO 8601 timestamp",
 };
-
-// ─── Domain Schemas ───────────────────────────────────────────────────
 
 const User = {
   type: "object",
@@ -158,8 +144,6 @@ const Job = {
   },
 };
 
-// ─── Auth Schemas ─────────────────────────────────────────────────────
-
 const RegisterRequest = {
   type: "object",
   required: ["email", "password"],
@@ -208,20 +192,14 @@ const AuthResponse = {
 
 const RegisteredUser = {
   type: "object",
-  description: "User record returned after registration (from RETURNING *)",
+  description: "User record returned after registration",
   properties: {
     id: { type: "integer", example: 2 },
     email: { type: "string", format: "email", example: "newuser@erp.local" },
-    password_hash: {
-      type: "string",
-      description: "⚠ Exposed in current implementation (Argon2 hash)",
-    },
     created_at: { ...Timestamp },
     updated_at: { ...Timestamp },
   },
 };
-
-// ─── Request Schemas ──────────────────────────────────────────────────
 
 const CreateProductRequest = {
   type: "object",
@@ -291,24 +269,6 @@ const UpdateSupplierRequest = {
     email: { type: "string", format: "email" },
     phone: { type: "string" },
   },
-  CreateSaleRequest: {
-    type: "object",
-    properties: {
-      customerId: { type: "integer" },
-      items: {
-        type: "array",
-        items: {
-          type: "object",
-          properties: {
-            productId: { type: "integer" },
-            quantity: { type: "integer", minimum: 1 },
-          },
-          required: ["productId", "quantity"],
-        },
-      },
-    },
-    required: ["items"],
-  },
 };
 
 const CreateSaleRequest = {
@@ -373,6 +333,15 @@ const AdjustStockRequest = {
   },
 };
 
+const PromoteRequest = {
+  type: "object",
+  required: ["role"],
+  description: "Assign an existing role to a user",
+  properties: {
+    role: { type: "string", minLength: 1, example: "admin" },
+  },
+};
+
 const SubmitJobRequest = {
   type: "object",
   required: ["jobType"],
@@ -385,8 +354,6 @@ const SubmitJobRequest = {
     },
   },
 };
-
-// ─── Error Schemas ────────────────────────────────────────────────────
 
 const ErrorResponse = {
   type: "object",
@@ -431,8 +398,6 @@ const NotFoundResponse = {
   },
 };
 
-// ─── Health Schemas ───────────────────────────────────────────────────
-
 const HealthResponse = {
   type: "object",
   properties: {
@@ -454,10 +419,7 @@ const NotReadyResponse = {
   },
 };
 
-// ─── Export ───────────────────────────────────────────────────────────
-
 export const schemas = {
-  // Domain
   User,
   Product,
   Customer,
@@ -468,13 +430,11 @@ export const schemas = {
   SaleItem,
   Job,
 
-  // Auth
   RegisterRequest,
   LoginRequest,
   AuthResponse,
   RegisteredUser,
 
-  // Create/Update Requests
   CreateProductRequest,
   UpdateProductRequest,
   CreateCustomerRequest,
@@ -485,13 +445,12 @@ export const schemas = {
   CreateMovementRequest,
   AdjustStockRequest,
   SubmitJobRequest,
+  PromoteRequest,
 
-  // Errors
   ErrorResponse,
   ValidationErrorResponse,
   NotFoundResponse,
 
-  // Health
   HealthResponse,
   ReadyResponse,
   NotReadyResponse,

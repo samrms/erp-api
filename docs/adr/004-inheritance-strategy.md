@@ -2,23 +2,30 @@
 
 ## Status
 
-Accepted (with limits)
+Accepted
 
 ## Context
 
-Base abstractions (`BaseController`, `BaseService`, `BaseRepository`, `BaseDomainModel`, `BaseMiddleware`, `BasePasswordHasher`, `BaseTokenProvider`, `BaseJobQueue`, `BaseWorker`) provide shared contracts (method signatures, constructor patterns, error handling).
+Each architectural layer (controllers, services, repositories, middleware,
+infrastructure adapters) shares a contract. Without a base class the
+contract lives only in convention, and drift goes unnoticed until runtime.
 
 ## Decision
 
-Use inheritance only for contracts that are genuinely shared. Domain models extend `BaseDomainModel`; services extend `BaseService`; repositories extend `BaseRepository`. No universal base exists.
+One thin base class per layer in `src/shared/` and
+`src/infrastructure/*/Base*.js`. Every concrete class extends its base
+(`AuthController extends BaseController`,
+`PostgresProductRepository extends BaseRepository`, and so on).
+Base methods throw `must be implemented`, so a missing override fails fast
+instead of silently resolving to `undefined`.
 
 ## Consequences
 
-- Positive: Subclasses inherit consistent APIs; polymorphism works for middleware (`AuthMiddleware`, `RBACMiddleware`).
-- Negative: Some bases (`BaseDomainModel`) add minimal value; inheritance can obstruct composition if overused.
-- Recommendation: If a module needs different domain behavior, prefer composition over deeper inheritance.
-
-## Evidence
-
-- `src/shared/domain/BaseDomainModel.js` provides `touch()`, `validate()`, `toJSON()`.
-- `src/shared/http/BaseController.js` defines `findAll`, `findById`, `create`, `update`, `delete` contracts.
+- Positive: layer membership is explicit and checkable
+  (`instanceof BaseController` in tests and code)
+- Positive: single place documenting what each layer must provide
+- Negative: base methods carry unused parameters (accepted ESLint warnings);
+  JavaScript cannot enforce signatures at compile time
+- `TransactionManager` stays standalone: no shared contract exists for it
+- `BaseDomainModel` is available but currently subclass-free, since
+  repositories return plain rows by design

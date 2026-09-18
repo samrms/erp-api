@@ -1,5 +1,7 @@
 import { Queue } from "bullmq";
+
 import { BaseJobQueue } from "./BaseJobQueue.js";
+
 export class BullMQJobQueue extends BaseJobQueue {
   constructor(config) {
     super(config);

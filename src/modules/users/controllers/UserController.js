@@ -1,25 +1,43 @@
 import { BaseController } from "../../../shared/http/BaseController.js";
+import { UserDto } from "../dto/UserDto.js";
+import { PromoteUserDto } from "../dto/PromoteUserDto.js";
+
 export class UserController extends BaseController {
   constructor(userService) {
     super();
     this.userService = userService;
-    this.get = this.get.bind(this);
-    this.create = this.create.bind(this);
+    this.findAll = this.findAll.bind(this);
+    this.findById = this.findById.bind(this);
+    this.promote = this.promote.bind(this);
   }
-  async get(req, res, next) {
+
+  async findAll(req, res, next) {
     try {
-      const user = await this.userService.get(req.params.id);
-      return res.status(200).json(user);
+      const users = await this.userService.findAll(req.query);
+      return res.status(200).json(users.map((u) => new UserDto(u)));
     } catch (e) {
-      return next(e);
+      next(e);
     }
   }
-  async create(req, res, next) {
+
+  async findById(req, res, next) {
     try {
-      const user = await this.userService.create(req.body);
-      return res.status(201).json(user);
+      const user = await this.userService.findById(req.params.id);
+      return res.status(200).json(new UserDto(user));
     } catch (e) {
-      return next(e);
+      next(e);
+    }
+  }
+
+  async promote(req, res, next) {
+    try {
+      const result = await this.userService.promote(
+        req.params.id,
+        new PromoteUserDto(req.body),
+      );
+      return res.status(200).json(result);
+    } catch (e) {
+      next(e);
     }
   }
 }

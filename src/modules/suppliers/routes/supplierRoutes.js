@@ -1,4 +1,11 @@
 import { Router } from "express";
+import { validate } from "../../../shared/validation/validate.js";
+import {
+  listSuppliersValidators,
+  supplierIdValidator,
+  createSupplierValidators,
+  updateSupplierValidators,
+} from "../schemas/supplierSchemas.js";
 
 export default class SupplierRoutes {
   constructor(supplierController) {
@@ -8,11 +15,40 @@ export default class SupplierRoutes {
   }
 
   register() {
-    this.router.get("/", this.supplierController.findAll);
-    this.router.get("/:id", this.supplierController.findById);
-    this.router.post("/", this.supplierController.create);
-    this.router.patch("/:id", this.supplierController.update);
-    this.router.delete("/:id", this.supplierController.delete);
+    this.router.get(
+      "/",
+      listSuppliersValidators,
+      validate,
+      this.supplierController.findAll,
+    );
+
+    this.router.get(
+      "/:id",
+      supplierIdValidator,
+      validate,
+      this.supplierController.findById,
+    );
+
+    this.router.post(
+      "/",
+      createSupplierValidators,
+      validate,
+      this.supplierController.create,
+    );
+
+    this.router.patch(
+      "/:id",
+      updateSupplierValidators,
+      validate,
+      this.supplierController.update,
+    );
+
+    this.router.delete(
+      "/:id",
+      supplierIdValidator,
+      validate,
+      this.supplierController.delete,
+    );
   }
 
   getRouter() {

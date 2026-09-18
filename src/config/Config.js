@@ -12,6 +12,19 @@ export class Config {
     this.jwtIssuer = process.env.JWT_ISSUER || "erp-api";
     this.jwtAudience = process.env.JWT_AUDIENCE || "erp-api";
     this.jwtExpiresIn = process.env.JWT_EXPIRES_IN || "1h";
+    this.allowedOrigin = process.env.ALLOWED_ORIGIN || "";
     if (!this.jwtSecret) throw new Error("JWT_SECRET required");
+  }
+
+  get isDevelopment() {
+    return this.nodeEnv === "development";
+  }
+
+  get isTest() {
+    return this.nodeEnv === "test";
+  }
+
+  get isProduction() {
+    return this.nodeEnv === "production";
   }
 }

@@ -1,8 +1,9 @@
 import pg from "pg";
 import { BaseDatabase } from "./BaseDatabase.js";
+
 export class PostgresDatabase extends BaseDatabase {
   constructor(config) {
-    super();
+    super(config);
     this.pool = new pg.Pool({
       connectionString: config.databaseUrl,
       max: 20,

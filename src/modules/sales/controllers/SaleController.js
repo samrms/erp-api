@@ -1,4 +1,6 @@
 import { BaseController } from "../../../shared/http/BaseController.js";
+import { CreateSaleDto } from "../dto/CreateSaleDto.js";
+
 export class SaleController extends BaseController {
   constructor(saleService) {
     super();
@@ -9,7 +11,7 @@ export class SaleController extends BaseController {
   }
   async create(req, res, next) {
     try {
-      const s = await this.saleService.create(req.body);
+      const s = await this.saleService.create(new CreateSaleDto(req.body));
       return res.status(201).json(s);
     } catch (e) {
       next(e);

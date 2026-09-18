@@ -1,15 +1,3 @@
-/**
- * Centralized OpenAPI path definitions.
- *
- * Every path here must match an actual route registered in App.js.
- * Paths that are NOT mounted (e.g. users module) are excluded.
- *
- * To document a new endpoint: add it here with the full path relative
- * to the server URL (/api/v1).
- */
-
-// ─── Common Responses ─────────────────────────────────────────────────
-
 const unauthorized = {
   401: {
     description: "Missing or invalid JWT token",
@@ -62,11 +50,7 @@ const fullCrudErrors = {
   ...serverError,
 };
 
-// ─── Paths ────────────────────────────────────────────────────────────
-
 export const paths = {
-  // ── Health ────────────────────────────────────────────────────────
-
   "/health": {
     get: {
       tags: ["Health"],
@@ -112,8 +96,6 @@ export const paths = {
       },
     },
   },
-
-  // ── Auth ──────────────────────────────────────────────────────────
 
   "/auth/register": {
     post: {
@@ -187,7 +169,81 @@ export const paths = {
     },
   },
 
-  // ── Products ──────────────────────────────────────────────────────
+  "/auth/logout": {
+    post: {
+      tags: ["Auth"],
+      summary: "Logout (revoke current token)",
+      operationId: "logout",
+      security: [{ bearerAuth: [] }],
+      responses: {
+        200: {
+          description: "Logged out successfully",
+          content: {
+            "application/json": {
+              schema: {
+                type: "object",
+                properties: {
+                  message: {
+                    type: "string",
+                    example: "Logged out successfully",
+                  },
+                },
+              },
+            },
+          },
+        },
+        ...unauthorized,
+        ...serverError,
+      },
+    },
+  },
+
+  "/auth/change-password": {
+    post: {
+      tags: ["Auth"],
+      summary: "Change password (requires current password)",
+      operationId: "changePassword",
+      security: [{ bearerAuth: [] }],
+      requestBody: {
+        required: true,
+        content: {
+          "application/json": {
+            schema: {
+              type: "object",
+              required: ["currentPassword", "newPassword"],
+              properties: {
+                currentPassword: { type: "string", example: "oldpass123" },
+                newPassword: {
+                  type: "string",
+                  minLength: 6,
+                  example: "newpass123",
+                },
+              },
+            },
+          },
+        },
+      },
+      responses: {
+        200: {
+          description: "Password changed successfully",
+          content: {
+            "application/json": {
+              schema: {
+                type: "object",
+                properties: {
+                  message: {
+                    type: "string",
+                    example: "Password changed successfully",
+                  },
+                },
+              },
+            },
+          },
+        },
+        ...authErrors,
+      },
+    },
+  },
 
   "/products": {
     get: {
@@ -337,8 +393,6 @@ export const paths = {
     },
   },
 
-  // ── Customers ─────────────────────────────────────────────────────
-
   "/customers": {
     get: {
       tags: ["Customers"],
@@ -460,8 +514,6 @@ export const paths = {
       },
     },
   },
-
-  // ── Suppliers ─────────────────────────────────────────────────────
 
   "/suppliers": {
     get: {
@@ -585,8 +637,6 @@ export const paths = {
     },
   },
 
-  // ── Sales ─────────────────────────────────────────────────────────
-
   "/sales": {
     get: {
       tags: ["Sales"],
@@ -682,31 +732,7 @@ export const paths = {
     },
   },
 
-  // ── Inventory ─────────────────────────────────────────────────────
-
-  "/inventory": {
-    get: {
-      tags: ["Inventory"],
-      summary: "List all inventory stock levels",
-      description:
-        "Returns inventory records for all products. Requires inventory:read permission.",
-      operationId: "findAllInventory",
-      security: [{ bearerAuth: [] }],
-      responses: {
-        200: {
-          description: "List of inventory records",
-          content: {
-            "application/json": {
-              schema: {
-                type: "array",
-                items: { $ref: "#/components/schemas/Inventory" },
-              },
-            },
-          },
-        },
-        ...authErrors,
-      },
-    },
+  "/inventory/movements": {
     post: {
       tags: ["Inventory"],
       summary: "Record a stock movement",
@@ -735,7 +761,7 @@ export const paths = {
     },
   },
 
-  "/inventory/{id}": {
+  "/inventory/{productId}": {
     get: {
       tags: ["Inventory"],
       summary: "Get stock level for a product",
@@ -743,7 +769,7 @@ export const paths = {
       security: [{ bearerAuth: [] }],
       parameters: [
         {
-          name: "id",
+          name: "productId",
           in: "path",
           required: true,
           schema: { type: "integer" },
@@ -762,6 +788,9 @@ export const paths = {
         ...fullCrudErrors,
       },
     },
+  },
+
+  "/inventory/{productId}/adjust": {
     patch: {
       tags: ["Inventory"],
       summary: "Adjust stock for a product",
@@ -771,7 +800,7 @@ export const paths = {
       security: [{ bearerAuth: [] }],
       parameters: [
         {
-          name: "id",
+          name: "productId",
           in: "path",
           required: true,
           schema: { type: "integer" },
@@ -800,8 +829,6 @@ export const paths = {
     },
   },
 
-  // ── Jobs ──────────────────────────────────────────────────────────
-
   "/jobs": {
     post: {
       tags: ["Jobs"],
@@ -829,6 +856,105 @@ export const paths = {
           },
         },
         ...authErrors,
+      },
+    },
+  },
+
+  "/users": {
+    get: {
+      tags: ["Users"],
+      summary: "List all users (admin only)",
+      operationId: "findAllUsers",
+      security: [{ bearerAuth: [] }],
+      parameters: [
+        { name: "page", in: "query", schema: { type: "integer", default: 1 } },
+        {
+          name: "limit",
+          in: "query",
+          schema: { type: "integer", default: 10, maximum: 100 },
+        },
+      ],
+      responses: {
+        200: {
+          description: "List of users (password hashes never exposed)",
+          content: {
+            "application/json": {
+              schema: {
+                type: "array",
+                items: { $ref: "#/components/schemas/User" },
+              },
+            },
+          },
+        },
+        ...authErrors,
+      },
+    },
+  },
+
+  "/users/{id}": {
+    get: {
+      tags: ["Users"],
+      summary: "Get a user by ID (admin only)",
+      operationId: "findUserById",
+      security: [{ bearerAuth: [] }],
+      parameters: [
+        { name: "id", in: "path", required: true, schema: { type: "integer" } },
+      ],
+      responses: {
+        200: {
+          description: "User found",
+          content: {
+            "application/json": {
+              schema: { $ref: "#/components/schemas/User" },
+            },
+          },
+        },
+        ...fullCrudErrors,
+      },
+    },
+  },
+
+  "/users/{id}/promote": {
+    post: {
+      tags: ["Users"],
+      summary: "Assign a role to a user (admin only)",
+      operationId: "promoteUser",
+      security: [{ bearerAuth: [] }],
+      parameters: [
+        { name: "id", in: "path", required: true, schema: { type: "integer" } },
+      ],
+      requestBody: {
+        required: true,
+        content: {
+          "application/json": {
+            schema: { $ref: "#/components/schemas/PromoteRequest" },
+          },
+        },
+      },
+      responses: {
+        200: {
+          description: "Role assigned",
+          content: {
+            "application/json": {
+              schema: {
+                type: "object",
+                properties: {
+                  id: { type: "integer", example: 2 },
+                  role: { type: "string", example: "admin" },
+                },
+              },
+            },
+          },
+        },
+        409: {
+          description: "User already has the role",
+          content: {
+            "application/json": {
+              schema: { $ref: "#/components/schemas/ErrorResponse" },
+            },
+          },
+        },
+        ...fullCrudErrors,
       },
     },
   },

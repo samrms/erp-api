@@ -1,24 +1,32 @@
 import { describe, it, expect } from "vitest";
 import { RBACMiddleware } from "../../../src/modules/auth/middleware/RBACMiddleware.js";
-describe("rbac middleware", () => {
-  it("denies without permission", () => {
-    const mw = new RBACMiddleware();
-    const handler = mw.handle("product:create");
-    const req = { user: { permissions: [] } };
-    let denied = false;
-    handler(req, {}, (e) => {
-      if (e) denied = true;
-    });
-    expect(denied).toBe(true);
+import { AuthorizationError } from "../../../src/shared/errors/AuthorizationError.js";
+
+function run(permission, user) {
+  const mw = new RBACMiddleware();
+  return new Promise((resolve) => {
+    mw.handle(permission)({ user }, {}, (err) => resolve(err));
   });
-  it("allows with permission", () => {
-    const mw = new RBACMiddleware();
-    const handler = mw.handle("product:create");
-    const req = { user: { permissions: ["product:create"] } };
-    let allowed = false;
-    handler(req, {}, () => {
-      allowed = true;
+}
+
+describe("RBACMiddleware", () => {
+  it("allows a request carrying the required permission", async () => {
+    const err = await run("product:read", {
+      permissions: ["product:read", "sale:read"],
     });
-    expect(allowed).toBe(true);
+    expect(err).toBeUndefined();
+  });
+
+  it("denies a request missing the permission with a 403", async () => {
+    const err = await run("product:read", { permissions: ["sale:read"] });
+    expect(err).toBeInstanceOf(AuthorizationError);
+    expect(err.statusCode).toBe(403);
+  });
+
+  it("denies requests with no user or no permissions array", async () => {
+    expect(await run("product:read", undefined)).toBeInstanceOf(
+      AuthorizationError,
+    );
+    expect(await run("product:read", {})).toBeInstanceOf(AuthorizationError);
   });
 });

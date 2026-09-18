@@ -1,7 +1,5 @@
-import { BaseService } from "../../shared/http/BaseService.js";
-export class TransactionManager extends BaseService {
+export class TransactionManager {
   constructor(database) {
-    super();
     this.database = database;
   }
 

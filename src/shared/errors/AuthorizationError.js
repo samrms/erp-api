@@ -1,6 +1,7 @@
 import { AppError } from "./AppError.js";
+
 export class AuthorizationError extends AppError {
-  constructor(message, code = "AUTHORIZATION_ERROR") {
-    super(message, 403, code);
+  constructor(message = "Insufficient permissions") {
+    super(message, 403, "AUTHORIZATION_ERROR");
   }
 }

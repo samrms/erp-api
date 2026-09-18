@@ -1,5 +1,7 @@
 import jwt from "jsonwebtoken";
+
 import { BaseTokenProvider } from "./BaseTokenProvider.js";
+
 export class JwtTokenProvider extends BaseTokenProvider {
   constructor(config) {
     super();

@@ -1,4 +1,6 @@
 import { BaseController } from "../../../shared/http/BaseController.js";
+import { JobDto } from "../dto/JobDto.js";
+
 export class JobController extends BaseController {
   constructor(service) {
     super();
@@ -8,7 +10,7 @@ export class JobController extends BaseController {
   }
   async create(req, res, next) {
     try {
-      const r = await this.service.submit(req.body);
+      const r = await this.service.submit(new JobDto(req.body));
       return res.status(202).json(r);
     } catch (e) {
       next(e);
