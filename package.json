@@ -1,12 +1,12 @@
 {
   "name": "erp-api",
   "version": "1.0.0",
+  "description": "ERP REST API with Node.js, PostgreSQL, Redis, and BullMQ",
   "type": "module",
-  "description": "Portfolio-grade modular monolith ERP REST API",
   "main": "src/main.js",
   "scripts": {
-    "start": "node src/main.js",
     "dev": "node --watch src/main.js",
+    "start": "node src/main.js",
     "worker": "node src/worker.js",
     "migrate:up": "node-pg-migrate up",
     "migrate:down": "node-pg-migrate down",
@@ -22,44 +22,38 @@
     "test:integration": "ERP_TEST_TEMPLATE=erp_test_template_$$ vitest run tests/integration",
     "test:architecture": "ERP_TEST_TEMPLATE=erp_test_template_$$ vitest run tests/architecture",
     "test:e2e": "ERP_TEST_TEMPLATE=erp_test_template_$$ vitest run tests/e2e",
-    "docker:up": "docker compose up -d",
-    "docker:down": "docker compose down",
-    "docker:build": "docker compose build"
+    "docker:up": "docker compose -f docker/docker-compose.yml up -d",
+    "docker:down": "docker compose -f docker/docker-compose.yml down",
+    "docker:build": "rm -rf .docker-build && mkdir -p .docker-build && cp package.json pnpm-lock.yaml .docker-build/ && cd .docker-build && pnpm install --prod --node-linker=hoisted && cd .. && docker compose -f docker/docker-compose.yml build --no-cache && rm -rf .docker-build"
   },
   "dependencies": {
-    "argon2": "^0.40.2",
-    "bullmq": "^5.12.0",
+    "argon2": "^0.41.1",
+    "bullmq": "^5.16.0",
     "cors": "^2.8.5",
-    "dotenv": "^16.4.7",
-    "express": "^4.21.2",
-    "express-rate-limit": "^7.5.0",
-    "express-validator": "^7.2.0",
-    "helmet": "^7.2.0",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "express-validator": "^7.1.0",
+    "helmet": "^7.1.0",
     "jsonwebtoken": "^9.0.2",
-    "pg": "^8.13.0",
-    "redis": "^4.7.0",
+    "node-pg-migrate": "^7.2.0",
+    "pg": "^8.12.0",
+    "rate-limiter-flexible": "^5.0.3",
     "swagger-jsdoc": "^6.2.8",
-    "swagger-ui-express": "^5.0.1"
+    "swagger-ui-express": "^5.0.1",
+    "uuid": "^10.0.0",
+    "zod": "^3.23.8",
+    "redis": "^4.7.0",
+    "express-rate-limit": "^7.5.0"
   },
   "devDependencies": {
-    "@eslint/js": "^10.0.1",
-    "eslint": "^8.57.0",
-    "eslint-config-prettier": "^10.1.8",
-    "eslint-plugin-prettier": "^5.5.6",
-    "globals": "^17.12.0",
-    "node-pg-migrate": "^7.2.0",
-    "prettier": "3.9.7",
-    "vitest": "^5.0.1"
+    "@eslint/js": "^9.9.1",
+    "eslint": "^9.9.1",
+    "globals": "^15.9.0",
+    "prettier": "^3.3.3",
+    "supertest": "^7.0.0",
+    "vitest": "^2.0.5"
   },
   "engines": {
     "node": ">=20.0.0"
-  },
-  "keywords": [
-    "erp",
-    "rest-api",
-    "portfolio",
-    "oop",
-    "modular-monolith"
-  ],
-  "license": "MIT"
+  }
 }
