@@ -7,7 +7,7 @@ export class Config {
     this.port = parseInt(process.env.PORT || "3000", 10);
     this.databaseUrl =
       process.env.DATABASE_URL || process.env.TEST_DATABASE_URL;
-    this.redisUrl = process.env.REDIS_URL || "redis://localhost:6379";
+    this.redisUrl = process.env.REDIS_URL || "";
     this.jwtSecret = process.env.JWT_SECRET;
     this.jwtIssuer = process.env.JWT_ISSUER || "erp-api";
     this.jwtAudience = process.env.JWT_AUDIENCE || "erp-api";

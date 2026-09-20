@@ -13,6 +13,7 @@ export class RedisCache {
   }
 
   async _connected() {
+    if (!this.redisUrl) return null;
     if (this.client) return this.client;
     if (Date.now() < this.downUntil) return null;
     if (!this.connecting) {

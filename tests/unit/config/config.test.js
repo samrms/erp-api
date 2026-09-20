@@ -5,6 +5,7 @@ const MANAGED = [
   "PORT",
   "DATABASE_URL",
   "TEST_DATABASE_URL",
+  "REDIS_URL",
   "JWT_SECRET",
   "JWT_ISSUER",
   "JWT_AUDIENCE",
@@ -35,7 +36,7 @@ describe("Config", () => {
     expect(config.jwtIssuer).toBe("erp-api");
     expect(config.jwtAudience).toBe("erp-api");
     expect(config.jwtExpiresIn).toBe("1h");
-    expect(config.redisUrl).toBe("redis://localhost:6379");
+    expect(config.redisUrl).toBe("");
   });
 
   it("reads overrides from the environment", () => {
