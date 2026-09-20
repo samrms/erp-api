@@ -26,9 +26,14 @@ beforeAll(async () => {
   );
 
   const adminEmail = `admin-${++counter}@example.com`;
-  const registered = await apiFetch(api.baseUrl, "POST", "/api/v1/auth/register", {
-    body: { email: adminEmail, password: "secret123", firstName: "Admin" },
-  });
+  const registered = await apiFetch(
+    api.baseUrl,
+    "POST",
+    "/api/v1/auth/register",
+    {
+      body: { email: adminEmail, password: "secret123", firstName: "Admin" },
+    },
+  );
   await grantPermissions(api.db, registered.body.id, ALL);
   const login = await apiFetch(api.baseUrl, "POST", "/api/v1/auth/login", {
     body: { email: adminEmail, password: "secret123" },

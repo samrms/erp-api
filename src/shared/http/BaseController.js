@@ -1,18 +1,18 @@
 export class BaseController {
   constructor() {}
-  create(req, res, next) {
+  create(_req_req, _res_res, _next_next) {
     throw new Error("create must be implemented");
   }
-  findAll(req, res, next) {
+  findAll(_req_req, _res_res, _next_next) {
     throw new Error("findAll must be implemented");
   }
-  findById(req, res, next) {
+  findById(_req_req, _res_res, _next_next) {
     throw new Error("findById must be implemented");
   }
-  update(req, res, next) {
+  update(_req_req, _res_res, _next_next) {
     throw new Error("update must be implemented");
   }
-  delete(req, res, next) {
+  delete(_req_req, _res_res, _next_next) {
     throw new Error("delete must be implemented");
   }
 }

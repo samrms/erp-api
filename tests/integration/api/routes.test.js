@@ -80,7 +80,11 @@ describe("route registration", () => {
       ],
       [SaleRoutes, [stubController], ["GET /", "GET /:id", "POST /"]],
       [JobRoutes, [stubController], ["GET /:id", "POST /"]],
-      [UserRoutes, [stubController, passthrough], ["GET /", "GET /:id", "POST /:id/promote"]],
+      [
+        UserRoutes,
+        [stubController, passthrough],
+        ["GET /", "GET /:id", "POST /:id/promote"],
+      ],
     ];
     for (const [RoutesClass, args, expected] of expectations) {
       const counts = layerCounts(RoutesClass, ...args);

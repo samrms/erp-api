@@ -1,9 +1,21 @@
 import { Config } from "./config/Config.js";
 import { ApplicationContainer } from "./app/ApplicationContainer.js";
 import { App } from "./app/App.js";
-import { seedAdmin } from "./infrastructure/database/seed.js";
+import { seedAdmin } from "./infrastructure/database/bootstrapAdmin.js";
+import nodePgm from "node-pg-migrate";
 
 const config = new Config();
+
+if (config.isProduction) {
+  await nodePgm({
+    direction: "up",
+    dir: "migrations",
+    databaseUrl: config.databaseUrl,
+    noLock: true,
+  });
+  console.log("Migrations applied");
+}
+
 const container = new ApplicationContainer();
 const seeded = await seedAdmin({
   database: container.database,

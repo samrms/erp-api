@@ -2,7 +2,7 @@ export class BaseJobQueue {
   constructor(config) {
     this.config = config || {};
   }
-  async add(type, payload) {
+  async add(_type_type, _payload_payload) {
     throw new Error("add must be implemented");
   }
   async close() {

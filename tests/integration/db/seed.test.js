@@ -1,6 +1,6 @@
 import { describe, it, expect, beforeAll, afterAll, beforeEach } from "vitest";
 import { createIsolatedDb } from "../../setup/db.js";
-import { seedAdmin } from "../../../src/infrastructure/database/seed.js";
+import { seedAdmin } from "../../../src/infrastructure/database/bootstrapAdmin.js";
 import { Argon2PasswordHasher } from "../../../src/infrastructure/security/Argon2PasswordHasher.js";
 
 let db;
@@ -27,7 +27,10 @@ beforeEach(() => {
   delete process.env.ADMIN_PASSWORD;
 });
 
-const deps = () => ({ database: db, passwordHasher: new Argon2PasswordHasher() });
+const deps = () => ({
+  database: db,
+  passwordHasher: new Argon2PasswordHasher(),
+});
 
 describe("seedAdmin", () => {
   it("does nothing without admin credentials configured", async () => {
@@ -54,20 +57,28 @@ describe("seedAdmin", () => {
       ["root@example.com"],
     );
     expect(found.rows[0].roles).toContain("admin");
-    for (const code of ["product:read", "sale:read", "user:read", "user:write"]) {
+    for (const code of [
+      "product:read",
+      "sale:read",
+      "user:read",
+      "user:write",
+    ]) {
       expect(found.rows[0].permissions).toContain(code);
     }
     const hasher = new Argon2PasswordHasher();
-    expect(await hasher.verify(found.rows[0].password_hash, "root-secret")).toBe(true);
+    expect(
+      await hasher.verify(found.rows[0].password_hash, "root-secret"),
+    ).toBe(true);
   }, 20000);
 
   it("is idempotent across restarts", async () => {
     process.env.ADMIN_EMAIL = "root@example.com";
     process.env.ADMIN_PASSWORD = "root-secret";
     expect(await seedAdmin(deps())).toBeNull();
-    const users = await db.query("SELECT COUNT(*) AS c FROM users WHERE email = $1", [
-      "root@example.com",
-    ]);
+    const users = await db.query(
+      "SELECT COUNT(*) AS c FROM users WHERE email = $1",
+      ["root@example.com"],
+    );
     expect(users.rows[0].c).toBe("1");
   });
 });

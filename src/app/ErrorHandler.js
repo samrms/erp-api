@@ -7,14 +7,12 @@ export class ErrorHandler {
   }
 
   handle(err, req, res, _next) {
-
     if (err instanceof AppError) {
       const body = err.toJSON();
       body.error.requestId = req.id || "-";
       if (this.isDevelopment) body.error.stack = err.stack;
 
       if (!err.isOperational) {
-
         console.error(
           JSON.stringify({
             event: "error.programmer",

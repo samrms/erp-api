@@ -1,6 +1,6 @@
 export class BaseMiddleware {
   constructor() {}
-  handle(req, res, next) {
+  handle(_req_req, _res_res, _next_next) {
     throw new Error("handle must be implemented");
   }
 }

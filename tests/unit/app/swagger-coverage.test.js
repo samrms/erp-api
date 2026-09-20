@@ -32,7 +32,10 @@ describe("swagger coverage", () => {
       for (const layer of routes.getRouter().stack) {
         if (!layer.route) continue;
         for (const method of Object.keys(layer.route.methods)) {
-          const routePath = layer.route.path.replace(/:([^/]+)/g, (_, name) => `{${name}}`);
+          const routePath = layer.route.path.replace(
+            /:([^/]+)/g,
+            (_, name) => `{${name}}`,
+          );
           const key = `${base}${routePath === "/" ? "" : routePath}`;
           const documented = paths[key] && paths[key][method];
           if (!documented) missing.push(`${method.toUpperCase()} ${key}`);

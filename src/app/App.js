@@ -50,7 +50,7 @@ export class App {
       try {
         await this.container.database.query("SELECT 1");
         res.json({ ready: true });
-      } catch (_e) {
+      } catch {
         res.status(503).json({ ready: false });
       }
     });
@@ -81,7 +81,10 @@ export class App {
       "/api/v1/users",
       auth,
       rbac("user:read"),
-      new UserRoutes(this.container.userController, rbac("user:write")).getRouter(),
+      new UserRoutes(
+        this.container.userController,
+        rbac("user:write"),
+      ).getRouter(),
     );
 
     this.app.use(

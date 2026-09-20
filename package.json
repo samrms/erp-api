@@ -24,7 +24,8 @@
     "test:e2e": "ERP_TEST_TEMPLATE=erp_test_template_$$ vitest run tests/e2e",
     "docker:up": "docker compose -f docker/docker-compose.yml up -d",
     "docker:down": "docker compose -f docker/docker-compose.yml down",
-    "docker:build": "rm -rf .docker-build && mkdir -p .docker-build && cp package.json pnpm-lock.yaml .docker-build/ && cd .docker-build && pnpm install --prod --node-linker=hoisted && cd .. && docker compose -f docker/docker-compose.yml build --no-cache && rm -rf .docker-build"
+    "docker:build": "docker compose -f docker/docker-compose.yml build --no-cache && rm -rf .docker-build",
+    "seed": "node src/infrastructure/database/seed.js"
   },
   "dependencies": {
     "argon2": "^0.41.1",
@@ -32,22 +33,23 @@
     "cors": "^2.8.5",
     "dotenv": "^16.4.5",
     "express": "^4.19.2",
+    "express-rate-limit": "^7.5.0",
     "express-validator": "^7.1.0",
     "helmet": "^7.1.0",
     "jsonwebtoken": "^9.0.2",
     "node-pg-migrate": "^7.2.0",
     "pg": "^8.12.0",
     "rate-limiter-flexible": "^5.0.3",
+    "redis": "^4.7.0",
     "swagger-jsdoc": "^6.2.8",
     "swagger-ui-express": "^5.0.1",
     "uuid": "^10.0.0",
-    "zod": "^3.23.8",
-    "redis": "^4.7.0",
-    "express-rate-limit": "^7.5.0"
+    "zod": "^3.23.8"
   },
   "devDependencies": {
     "@eslint/js": "^9.9.1",
     "eslint": "^9.9.1",
+    "eslint-plugin-prettier": "^5.5.6",
     "globals": "^15.9.0",
     "prettier": "^3.3.3",
     "supertest": "^7.0.0",

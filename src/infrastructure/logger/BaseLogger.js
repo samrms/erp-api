@@ -1,11 +1,11 @@
 export class BaseLogger {
-  info(obj) {
+  info(_obj_obj) {
     throw new Error("info must be implemented");
   }
-  warn(obj) {
+  warn(_obj_obj) {
     throw new Error("warn must be implemented");
   }
-  error(obj) {
+  error(_obj_obj) {
     throw new Error("error must be implemented");
   }
 }

@@ -13,7 +13,6 @@ export class SaleService extends BaseService {
 
   async create({ customerId, items }) {
     return this.transactionManager.run(async (client) => {
-
       const productIds = items.map((item) => item.productId);
       const products = [];
       for (const id of productIds) {

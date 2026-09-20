@@ -7,8 +7,7 @@ const BASE_URL =
   process.env.TEST_DATABASE_URL ||
   "postgres://postgres:postgres@localhost:5432/erp_db_test";
 
-export const TEMPLATE_DB =
-  process.env.ERP_TEST_TEMPLATE || "erp_test_template";
+export const TEMPLATE_DB = process.env.ERP_TEST_TEMPLATE || "erp_test_template";
 
 function withDb(url, db) {
   const u = new URL(url);

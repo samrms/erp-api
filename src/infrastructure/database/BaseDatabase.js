@@ -2,7 +2,7 @@ export class BaseDatabase {
   constructor(config) {
     this.config = config || {};
   }
-  async query(text, params) {
+  async query(_text_text, _params_params) {
     throw new Error("query must be implemented");
   }
   async getClient() {

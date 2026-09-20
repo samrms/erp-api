@@ -4,5 +4,6 @@ ENV NODE_ENV=production
 COPY .docker-build/node_modules ./node_modules
 COPY package.json ./
 COPY src ./src
+COPY migrations ./migrations
 EXPOSE 3000
 CMD ["node", "src/main.js"]
