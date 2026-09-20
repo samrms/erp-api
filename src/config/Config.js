@@ -5,8 +5,7 @@ export class Config {
   constructor() {
     this.nodeEnv = process.env.NODE_ENV || "development";
     this.port = parseInt(process.env.PORT || "3000", 10);
-    this.databaseUrl =
-      process.env.DATABASE_URL || process.env.TEST_DATABASE_URL;
+    this.databaseUrl = process.env.DATABASE_URL || "";
     this.redisUrl = process.env.REDIS_URL || "";
     this.jwtSecret = process.env.JWT_SECRET;
     this.jwtIssuer = process.env.JWT_ISSUER || "erp-api";
@@ -26,5 +25,9 @@ export class Config {
 
   get isProduction() {
     return this.nodeEnv === "production";
+  }
+
+  get isMemory() {
+    return !this.databaseUrl;
   }
 }
