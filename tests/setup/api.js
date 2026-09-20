@@ -6,10 +6,13 @@ import { PostgresAuthRepository } from "../../src/modules/auth/repositories/Post
 import { AuthService } from "../../src/modules/auth/services/AuthService.js";
 import { AuthController } from "../../src/modules/auth/controllers/AuthController.js";
 import { PostgresProductRepository } from "../../src/modules/products/repositories/PostgresProductRepository.js";
+import { ProductService } from "../../src/modules/products/services/ProductService.js";
 import { ProductController } from "../../src/modules/products/controllers/ProductController.js";
 import { PostgresCustomerRepository } from "../../src/modules/customers/repositories/PostgresCustomerRepository.js";
+import { CustomerService } from "../../src/modules/customers/services/CustomerService.js";
 import { CustomerController } from "../../src/modules/customers/controllers/CustomerController.js";
 import { PostgresSupplierRepository } from "../../src/modules/suppliers/repositories/PostgresSupplierRepository.js";
+import { SupplierService } from "../../src/modules/suppliers/services/SupplierService.js";
 import { SupplierController } from "../../src/modules/suppliers/controllers/SupplierController.js";
 import { PostgresInventoryRepository } from "../../src/modules/inventory/repositories/PostgresInventoryRepository.js";
 import { InventoryService } from "../../src/modules/inventory/services/InventoryService.js";
@@ -68,8 +71,11 @@ export async function startTestApi(label) {
     tokenStore,
   );
   const productRepo = new PostgresProductRepository(database);
+  const productService = new ProductService(productRepo);
   const customerRepo = new PostgresCustomerRepository(database);
+  const customerService = new CustomerService(customerRepo);
   const supplierRepo = new PostgresSupplierRepository(database);
+  const supplierService = new SupplierService(supplierRepo);
   const inventoryRepo = new PostgresInventoryRepository(database);
   const inventoryService = new InventoryService(inventoryRepo);
   const saleRepo = new PostgresSaleRepository(database);
@@ -95,11 +101,11 @@ export async function startTestApi(label) {
     authController: new AuthController(authService),
     authMiddleware: new AuthMiddleware(tokenProvider, tokenStore),
     productRepo,
-    productController: new ProductController(productRepo),
+    productController: new ProductController(productService),
     customerRepo,
-    customerController: new CustomerController(customerRepo),
+    customerController: new CustomerController(customerService),
     supplierRepo,
-    supplierController: new SupplierController(supplierRepo),
+    supplierController: new SupplierController(supplierService),
     inventoryRepo,
     inventoryService,
     inventoryController: new InventoryController(inventoryService),

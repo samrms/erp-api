@@ -1,11 +1,9 @@
 import { BaseController } from "../../../shared/http/BaseController.js";
-import { CreateProductDto } from "../dto/CreateProductDto.js";
-import { UpdateProductDto } from "../dto/UpdateProductDto.js";
 
 export class ProductController extends BaseController {
-  constructor(productRepository) {
+  constructor(productService) {
     super();
-    this.productRepository = productRepository;
+    this.productService = productService;
     this.create = this.create.bind(this);
     this.findAll = this.findAll.bind(this);
     this.findById = this.findById.bind(this);
@@ -15,11 +13,7 @@ export class ProductController extends BaseController {
 
   async create(req, res, next) {
     try {
-      return res
-        .status(201)
-        .json(
-          await this.productRepository.create(new CreateProductDto(req.body)),
-        );
+      return res.status(201).json(await this.productService.create(req.body));
     } catch (e) {
       next(e);
     }
@@ -27,9 +21,7 @@ export class ProductController extends BaseController {
 
   async findAll(req, res, next) {
     try {
-      return res
-        .status(200)
-        .json(await this.productRepository.findAll(req.query));
+      return res.status(200).json(await this.productService.findAll(req.query));
     } catch (e) {
       next(e);
     }
@@ -37,9 +29,7 @@ export class ProductController extends BaseController {
 
   async findById(req, res, next) {
     try {
-      const p = await this.productRepository.findById(req.params.id);
-      if (!p) return res.status(404).json({ error: "Not found" });
-      return res.status(200).json(p);
+      return res.status(200).json(await this.productService.findById(req.params.id));
     } catch (e) {
       next(e);
     }
@@ -47,11 +37,7 @@ export class ProductController extends BaseController {
 
   async update(req, res, next) {
     try {
-      const p = await this.productRepository.update(
-        req.params.id,
-        new UpdateProductDto(req.body),
-      );
-      return res.status(200).json(p);
+      return res.status(200).json(await this.productService.update(req.params.id, req.body));
     } catch (e) {
       next(e);
     }
@@ -59,7 +45,7 @@ export class ProductController extends BaseController {
 
   async delete(req, res, next) {
     try {
-      await this.productRepository.delete(req.params.id);
+      await this.productService.delete(req.params.id);
       return res.status(204).send();
     } catch (e) {
       next(e);

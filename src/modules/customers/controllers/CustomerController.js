@@ -1,10 +1,9 @@
 import { BaseController } from "../../../shared/http/BaseController.js";
-import { CustomerDto } from "../dto/CustomerDto.js";
 
 export class CustomerController extends BaseController {
-  constructor(customerRepository) {
+  constructor(customerService) {
     super();
-    this.customerRepository = customerRepository;
+    this.customerService = customerService;
     this.findAll = this.findAll.bind(this);
     this.findById = this.findById.bind(this);
     this.create = this.create.bind(this);
@@ -14,9 +13,7 @@ export class CustomerController extends BaseController {
 
   async findAll(req, res, next) {
     try {
-      return res
-        .status(200)
-        .json(await this.customerRepository.findAll(req.query));
+      return res.status(200).json(await this.customerService.findAll(req.query));
     } catch (e) {
       next(e);
     }
@@ -24,9 +21,7 @@ export class CustomerController extends BaseController {
 
   async findById(req, res, next) {
     try {
-      const c = await this.customerRepository.findById(req.params.id);
-      if (!c) return res.status(404).json({ error: "Not found" });
-      return res.status(200).json(c);
+      return res.status(200).json(await this.customerService.findById(req.params.id));
     } catch (e) {
       next(e);
     }
@@ -34,9 +29,7 @@ export class CustomerController extends BaseController {
 
   async create(req, res, next) {
     try {
-      return res
-        .status(201)
-        .json(await this.customerRepository.create(new CustomerDto(req.body)));
+      return res.status(201).json(await this.customerService.create(req.body));
     } catch (e) {
       next(e);
     }
@@ -44,14 +37,7 @@ export class CustomerController extends BaseController {
 
   async update(req, res, next) {
     try {
-      return res
-        .status(200)
-        .json(
-          await this.customerRepository.update(
-            req.params.id,
-            new CustomerDto(req.body),
-          ),
-        );
+      return res.status(200).json(await this.customerService.update(req.params.id, req.body));
     } catch (e) {
       next(e);
     }
@@ -59,7 +45,7 @@ export class CustomerController extends BaseController {
 
   async delete(req, res, next) {
     try {
-      await this.customerRepository.delete(req.params.id);
+      await this.customerService.delete(req.params.id);
       return res.status(204).send();
     } catch (e) {
       next(e);

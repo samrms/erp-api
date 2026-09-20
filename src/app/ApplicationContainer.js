@@ -33,8 +33,11 @@ import { PostgresJobRepository } from "../modules/jobs/repositories/PostgresJobR
 import { AuthService } from "../modules/auth/services/AuthService.js";
 import { AuthController } from "../modules/auth/controllers/AuthController.js";
 import { AuthMiddleware } from "../modules/auth/middleware/AuthMiddleware.js";
+import { ProductService } from "../modules/products/services/ProductService.js";
 import { ProductController } from "../modules/products/controllers/ProductController.js";
+import { CustomerService } from "../modules/customers/services/CustomerService.js";
 import { CustomerController } from "../modules/customers/controllers/CustomerController.js";
+import { SupplierService } from "../modules/suppliers/services/SupplierService.js";
 import { SupplierController } from "../modules/suppliers/controllers/SupplierController.js";
 import { InventoryService } from "../modules/inventory/services/InventoryService.js";
 import { InventoryController } from "../modules/inventory/controllers/InventoryController.js";
@@ -72,7 +75,11 @@ export class ApplicationContainer {
       this.queue = new BullMQJobQueue(this.config);
       this.authRepo = new PostgresAuthRepository(this.database);
       this.userRepo = new PostgresUserRepository(this.database);
-      this.productRepo = new PostgresProductRepository(this.database, this.cache);
+      this.productRepo = new PostgresProductRepository(
+        this.database,
+
+        this.cache,
+      );
       this.customerRepo = new PostgresCustomerRepository(this.database);
       this.supplierRepo = new PostgresSupplierRepository(this.database);
       this.inventoryRepo = new PostgresInventoryRepository(this.database);
@@ -81,20 +88,43 @@ export class ApplicationContainer {
     }
 
     this.authService = new AuthService(
-      this.authRepo, this.passwordHasher, this.tokenProvider, this.tokenStore,
+      this.authRepo,
+
+      this.passwordHasher,
+
+      this.tokenProvider,
+
+      this.tokenStore,
     );
     this.authController = new AuthController(this.authService);
-    this.authMiddleware = new AuthMiddleware(this.tokenProvider, this.tokenStore);
+    this.authMiddleware = new AuthMiddleware(
+      this.tokenProvider,
 
-    this.productController = new ProductController(this.productRepo);
-    this.customerController = new CustomerController(this.customerRepo);
-    this.supplierController = new SupplierController(this.supplierRepo);
+      this.tokenStore,
+    );
+
+    this.productService = new ProductService(this.productRepo);
+    this.productController = new ProductController(this.productService);
+
+    this.customerService = new CustomerService(this.customerRepo);
+    this.customerController = new CustomerController(this.customerService);
+
+    this.supplierService = new SupplierService(this.supplierRepo);
+    this.supplierController = new SupplierController(
+      this.supplierServicesupplierService,
+    );
 
     this.inventoryService = new InventoryService(this.inventoryRepo);
     this.inventoryController = new InventoryController(this.inventoryService);
 
     this.saleService = new SaleService(
-      this.saleRepo, this.inventoryRepo, this.transactionManager, this.productRepo,
+      this.saleRepo,
+
+      this.inventoryRepo,
+
+      this.transactionManager,
+
+      this.productRepo,
     );
     this.saleController = new SaleController(this.saleService);
 

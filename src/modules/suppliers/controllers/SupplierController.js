@@ -1,10 +1,9 @@
 import { BaseController } from "../../../shared/http/BaseController.js";
-import { SupplierDto } from "../dto/SupplierDto.js";
 
 export class SupplierController extends BaseController {
-  constructor(supplierRepository) {
+  constructor(supplierService) {
     super();
-    this.supplierRepository = supplierRepository;
+    this.supplierService = supplierService;
     this.findAll = this.findAll.bind(this);
     this.findById = this.findById.bind(this);
     this.create = this.create.bind(this);
@@ -14,9 +13,7 @@ export class SupplierController extends BaseController {
 
   async findAll(req, res, next) {
     try {
-      return res
-        .status(200)
-        .json(await this.supplierRepository.findAll(req.query));
+      return res.status(200).json(await this.supplierService.findAll(req.query));
     } catch (e) {
       next(e);
     }
@@ -24,9 +21,7 @@ export class SupplierController extends BaseController {
 
   async findById(req, res, next) {
     try {
-      const s = await this.supplierRepository.findById(req.params.id);
-      if (!s) return res.status(404).json({ error: "Not found" });
-      return res.status(200).json(s);
+      return res.status(200).json(await this.supplierService.findById(req.params.id));
     } catch (e) {
       next(e);
     }
@@ -34,9 +29,7 @@ export class SupplierController extends BaseController {
 
   async create(req, res, next) {
     try {
-      return res
-        .status(201)
-        .json(await this.supplierRepository.create(new SupplierDto(req.body)));
+      return res.status(201).json(await this.supplierService.create(req.body));
     } catch (e) {
       next(e);
     }
@@ -44,14 +37,7 @@ export class SupplierController extends BaseController {
 
   async update(req, res, next) {
     try {
-      return res
-        .status(200)
-        .json(
-          await this.supplierRepository.update(
-            req.params.id,
-            new SupplierDto(req.body),
-          ),
-        );
+      return res.status(200).json(await this.supplierService.update(req.params.id, req.body));
     } catch (e) {
       next(e);
     }
@@ -59,7 +45,7 @@ export class SupplierController extends BaseController {
 
   async delete(req, res, next) {
     try {
-      await this.supplierRepository.delete(req.params.id);
+      await this.supplierService.delete(req.params.id);
       return res.status(204).send();
     } catch (e) {
       next(e);
