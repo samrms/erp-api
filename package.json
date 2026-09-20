@@ -22,9 +22,8 @@
     "test:integration": "ERP_TEST_TEMPLATE=erp_test_template_$$ vitest run tests/integration",
     "test:architecture": "ERP_TEST_TEMPLATE=erp_test_template_$$ vitest run tests/architecture",
     "test:e2e": "ERP_TEST_TEMPLATE=erp_test_template_$$ vitest run tests/e2e",
-    "docker:up": "docker compose -f docker/docker-compose.yml up -d",
+    "docker:up": "docker compose -f docker/docker-compose.yml up -d --build",
     "docker:down": "docker compose -f docker/docker-compose.yml down",
-    "docker:build": "docker compose -f docker/docker-compose.yml build --no-cache && rm -rf .docker-build",
     "seed": "node src/infrastructure/database/seed.js"
   },
   "dependencies": {

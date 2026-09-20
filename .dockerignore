@@ -5,7 +5,8 @@
 /.env.*
 /*.md
 /docs
-/docker
 /vitest.config.js
 /.eslint.config.js
 /.prettierrc
+/.github
+*.log
