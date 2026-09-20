@@ -13,9 +13,7 @@ services:
           name: erp-db
           property: connectionString
       - key: REDIS_URL
-        fromService:
-          name: erp-redis
-          property: connectionString
+        value: ""
       - key: JWT_SECRET
         generateValue: true
       - key: JWT_ISSUER
@@ -30,32 +28,8 @@ services:
         generateValue: true
     healthCheckPath: /api/v1/health
 
-  - type: worker
-    name: erp-worker
-    runtime: node
-    plan: free
-    buildCommand: npm install --production --legacy-peer-deps
-    startCommand: node src/worker.js
-    envVars:
-      - key: NODE_ENV
-        value: production
-      - key: DATABASE_URL
-        fromDatabase:
-          name: erp-db
-          property: connectionString
-      - key: REDIS_URL
-        fromService:
-          name: erp-redis
-          property: connectionString
-      - key: JWT_SECRET
-        generateValue: true
-
 databases:
   - name: erp-db
     plan: free
     databaseName: erp
-    ipAllowList: []
-
-  - name: erp-redis
-    plan: free
     ipAllowList: []
