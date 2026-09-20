@@ -46,15 +46,29 @@ async function seedInMemory(container) {
   const hash = await passwordHasher.hash("admin123");
 
   const perms = [
-    "product:read", "customer:read", "supplier:read",
-    "sale:read", "inventory:read", "job:read",
-    "user:read", "user:write",
+    "product:read",
+    "customer:read",
+    "supplier:read",
+    "sale:read",
+    "inventory:read",
+    "job:read",
+    "user:read",
+    "user:write",
   ];
   for (const code of perms) {
-    store.permissions.push({ id: store._uuid(), code, name: code, created_at: store._now() });
+    store.permissions.push({
+      id: store._uuid(),
+      code,
+      name: code,
+      created_at: store._now(),
+    });
   }
 
-  const adminRole = { id: store._uuid(), name: "admin", created_at: store._now() };
+  const adminRole = {
+    id: store._uuid(),
+    name: "admin",
+    created_at: store._now(),
+  };
   store.roles.push(adminRole);
 
   for (const p of store.permissions) {
@@ -72,13 +86,28 @@ async function seedInMemory(container) {
   const customers = ["Acme Corp", "Globex", "Initech", "Hooli", "Pied Piper"];
   for (const name of customers) {
     const id = store._uuid();
-    store.customers.push({ id, name, email: null, phone: null, address: null, created_at: store._now(), updated_at: store._now() });
+    store.customers.push({
+      id,
+      name,
+      email: null,
+      phone: null,
+      address: null,
+      created_at: store._now(),
+      updated_at: store._now(),
+    });
   }
 
   const suppliers = ["TechParts", "MegaSupply", "GlobalComponents"];
   for (const name of suppliers) {
     const id = store._uuid();
-    store.suppliers.push({ id, name, email: null, phone: null, created_at: store._now(), updated_at: store._now() });
+    store.suppliers.push({
+      id,
+      name,
+      email: null,
+      phone: null,
+      created_at: store._now(),
+      updated_at: store._now(),
+    });
   }
 
   const products = [
@@ -89,8 +118,19 @@ async function seedInMemory(container) {
   ];
   for (const p of products) {
     const id = store._uuid();
-    store.products.push({ id, ...p, description: null, created_at: store._now(), updated_at: store._now() });
-    store.inventory.push({ id: store._uuid(), product_id: id, quantity: 100, updated_at: store._now() });
+    store.products.push({
+      id,
+      ...p,
+      description: null,
+      created_at: store._now(),
+      updated_at: store._now(),
+    });
+    store.inventory.push({
+      id: store._uuid(),
+      product_id: id,
+      quantity: 100,
+      updated_at: store._now(),
+    });
   }
 
   console.log("In-memory seed complete: admin@erp.local / admin123");

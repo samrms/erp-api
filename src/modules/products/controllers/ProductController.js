@@ -29,7 +29,9 @@ export class ProductController extends BaseController {
 
   async findById(req, res, next) {
     try {
-      return res.status(200).json(await this.productService.findById(req.params.id));
+      return res
+        .status(200)
+        .json(await this.productService.findById(req.params.id));
     } catch (e) {
       next(e);
     }
@@ -37,7 +39,9 @@ export class ProductController extends BaseController {
 
   async update(req, res, next) {
     try {
-      return res.status(200).json(await this.productService.update(req.params.id, req.body));
+      return res
+        .status(200)
+        .json(await this.productService.update(req.params.id, req.body));
     } catch (e) {
       next(e);
     }

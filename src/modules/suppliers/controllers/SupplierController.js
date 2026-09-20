@@ -13,7 +13,9 @@ export class SupplierController extends BaseController {
 
   async findAll(req, res, next) {
     try {
-      return res.status(200).json(await this.supplierService.findAll(req.query));
+      return res
+        .status(200)
+        .json(await this.supplierService.findAll(req.query));
     } catch (e) {
       next(e);
     }
@@ -21,7 +23,9 @@ export class SupplierController extends BaseController {
 
   async findById(req, res, next) {
     try {
-      return res.status(200).json(await this.supplierService.findById(req.params.id));
+      return res
+        .status(200)
+        .json(await this.supplierService.findById(req.params.id));
     } catch (e) {
       next(e);
     }
@@ -37,7 +41,9 @@ export class SupplierController extends BaseController {
 
   async update(req, res, next) {
     try {
-      return res.status(200).json(await this.supplierService.update(req.params.id, req.body));
+      return res
+        .status(200)
+        .json(await this.supplierService.update(req.params.id, req.body));
     } catch (e) {
       next(e);
     }
